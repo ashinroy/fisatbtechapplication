@@ -1,0 +1,15 @@
+application: fisatbtechapplication
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /js
+  static_dir: jscript
+
+- url: /images
+  static_dir: images
+- url: /.*
+  script: main.py
+
+

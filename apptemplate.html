@@ -1,0 +1,616 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>B.Tech Application - FISAT</title>
+<style type="text/css">
+	.input{font-size:12px;padding:0px 0px;border:solid 1px #aacfe4;}
+	.select{font-size:12px;padding:0px 0px;border:solid 1px #aacfe4;}
+	.button{clear:both;margin-left:220px;width:65px;height:25px;text-align:center;line-height:18px;color:#000;font-size:11px;font-family:Lucida Sans Unicode;}
+	.label {text-align:left ; font-family:	Lucida, "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;}
+	.error {color: red}
+</style>
+<script src="/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+function enableAddress(x) {
+	if(x==1)
+	{
+		if(document.application.fatheremployed.checked )
+		{
+			document.application.fatherdesig.disabled=false;
+			document.application.fatheraddress.disabled=false;	
+			document.application.fatherphone.disabled=false;		
+			
+		}
+		else
+		{
+			
+			document.application.fatherdesig.disabled=true;
+			document.application.fatheraddress.disabled=true;
+			document.application.fatherphone.disabled=true;
+		
+			$("#fatherdesig").val("");
+			$("#fatheraddress").val("");
+			$("#fatherphone").val("");
+						
+		}
+	}
+	if(x==2)
+	{
+		if(document.application.motheremployed.checked )
+		{
+			document.application.motherdesig.disabled=false;
+			document.application.motheraddress.disabled=false;	
+			document.application.motherphone.disabled=false;		
+			
+		}
+		else
+		{
+			
+			document.application.motherdesig.disabled=true;
+			document.application.motheraddress.disabled=true;
+			document.application.motherphone.disabled=true;
+			
+			$("#motherdesig").val("");
+			$("#motheraddress").val("");
+			$("#motherphone").val("");
+		
+		}
+	}
+	if(x==3)
+	{
+		if(document.application.samepaddress.checked )
+		{
+			
+			document.application.caddress.disabled=true;
+			$("#caddress").val("");		
+		
+		}
+		else
+		{
+			document.application.caddress.disabled=false;
+		}
+	}
+	if(x==4)
+	{
+		if(document.application.enablemfboaes.checked )
+		{
+			
+			document.application.mfboaesmemno.disabled=false;		
+		    
+		}
+		else
+		{
+			document.application.mfboaesmemno.disabled=true;
+			$("#mfboaesmemno").val("");	
+		}
+	}
+	if(x==5)
+	{
+		if(document.application.enablepfboaes.checked )
+		{
+			
+			document.application.pfboaesmemno.disabled=false;		
+		
+		}
+		else
+		{
+			document.application.pfboaesmemno.disabled=true;
+			$("#pfboaesmemno").val("");	
+		}
+	}
+	
+}
+function checkOthers(x) {
+	if (x==1)
+	{
+    	var selectBox = document.getElementById("panchayath");
+    	var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    	if(selectedValue=="Others")
+		{
+			document.application.inpanchayath.disabled=false;
+
+		}
+		else
+		{
+			document.application.inpanchayath.disabled=true;
+		}
+	}
+	if (x==2)
+	{
+    	var selectBox = document.getElementById("qualexam");
+    	var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    	if(selectedValue=="Others")
+		{
+			document.application.inqualexam.disabled=false;
+
+		}
+		else
+		{
+			document.application.inqualexam.disabled=true;
+		}
+	}
+}
+function checkEdu(x) {
+	if (x==1)
+	{
+    	var selectBox = document.getElementById("matric");
+    	var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    	if(selectedValue=="Others")
+		{
+			document.application.matriculation.disabled=false;
+
+		}
+		else
+		{
+			document.application.matriculation.disabled=true;
+		}
+	}
+	if(x==2)
+	{
+		var selectBox = document.getElementById("plus2");
+    	var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    	if(selectedValue=="Others")
+		{
+			document.application.plus2in.disabled=false;
+
+		}
+		else
+		{
+			document.application.plus2in.disabled=true;
+		}
+
+	}
+	if(x==3)
+	{
+		var selectBox = document.getElementById("grad");
+    	var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    	if(selectedValue=="Others")
+		{
+			document.application.gradin.disabled=false;
+
+		}
+		else
+		{
+			document.application.gradin.disabled=true;
+		}
+
+	}
+
+
+ }
+$(document).ready(function () {
+	$("#name").val("{{formv.name}}");
+	$("#paddress").val("{{formv.paddress}}");
+	$("#resphone").val("{{formv.resphone}}");
+	$("#mobphone").val("{{formv.mobphone}}");
+	$("#panchayath").val("{{formv.panchayath}}");
+	$("#inpanchayath").val("{{formv.inpanchayath}}");
+
+
+	if("{{formv.samepaddress}}"=="ON")
+	{
+		$("#samepaddress").attr("checked","checked");
+		enableAddress(3);
+	}	
+	else
+	{
+		$("#samepaddress").removeAttr("checked");
+		$("#caddress").val("{{formv.caddress}}");	
+		enableAddress(3);
+
+	}
+
+
+
+	$("#email").val("{{formv.email}}");
+	$("#dobdate").val("{{formv.dobdate}}");
+	$("#dobmonth").val("{{formv.dobmonth}}");
+	$("#dobyear").val("{{formv.dobyear}}");
+    if("{{formv.gender}}"=="M")
+	{
+		$("input:radio[name=gender]:nth(0)").attr("checked",true);	
+	}
+	else
+	{
+		$("input:radio[name=gender]:nth(1)").attr("checked",true);		
+	}
+	$("#email").val("{{formv.email}}");
+	$("#nation").val("{{formv.nation}}");
+	$("#religion").val("{{formv.religion}}");
+	$("#caste").val("{{formv.caste}}");
+	$("#category").val("{{formv.category}}");
+
+	$("#fathername").val("{{formv.fathername}}");
+	$("#fatherocc").val("{{formv.fatherocc}}");
+	 if("{{formv.fatheremployed}}"=="YES")
+	{
+		$("#fatheremployed").attr("checked","checked");
+		enableAddress(1);
+	}
+	else
+	{
+		$("#fatheremployed").removeAttr("checked");
+		enableAddress(1);
+
+	}	
+	$("#fatherdesig").val("{{formv.fatherdesig}}");
+	$("#fatheraddress").val("{{formv.fatheraddress}}");
+	$("#fatherphone").val("{{formv.fatherphone}}");
+	
+	$("#mothername").val("{{formv.mothername}}");
+	$("#motherocc").val("{{formv.motherocc}}");
+	if("{{formv.motheremployed}}"=="YES")
+	{
+		$("#motheremployed").attr("checked","checked");
+		enableAddress(2);
+	}	
+	else
+	{
+		$("#motheremployed").removeAttr("checked");
+		enableAddress(2);
+
+	}	
+	$("#motherdesig").val("{{formv.motherdesig}}");
+	$("#motheraddress").val("{{formv.motheraddress}}");
+	$("#motherphone").val("{{formv.motherphone}}");
+	
+	if("{{formv.enablemfboaes}}"=="ON")
+	{
+		$("#enablemfboaes").attr("checked","checked");
+		enableAddress(4);
+		$("#mfboaesmemno").val("{{formv.mfboaesmemno}}");
+			
+	}
+	if("{{formv.enablepfboaes}}"=="ON")
+	{
+		$("#enablepfboaes").attr("checked","checked");
+		enableAddress(5);
+		$("#pfboaesmemno").val("{{formv.pfboaesmemno}}");
+			
+	}
+		
+	$("#income").val("{{formv.income}}");
+	$("#erollno").val("{{formv.erollno}}");
+	$("#erank").val("{{formv.erank}}");
+	$("#epcmark").val("{{formv.epcmark}}");
+	$("#epcmaxmark").val("{{formv.epcmaxmark}}");
+	$("#emmark").val("{{formv.emmark}}");
+	$("#emmaxmark").val("{{formv.emmaxmark}}");
+	$("#insaddress").val("{{formv.insaddress}}");
+	$("#insphone").val("{{formv.insphone}}");
+	$("#qualexamyear").val("{{formv.qualexamyear}}");
+	$("#qualexamno").val("{{formv.qualexamno}}");
+	$("#qualexamyear").val("{{formv.qualexamyear}}");
+	$("#qualexam").val("{{formv.qualexam}}");
+	if("{{formv.qualexam}}"=="Others")
+	{
+
+		checkOthers(2);
+
+	}
+	$("#inqualexam").val("{{formv.inqualexam}}");
+	$("#qualboard").val("{{formv.qualboard}}");	
+	$("#qpmark").val("{{formv.qpmark}}");
+	$("#qpmaxmark").val("{{formv.qpmaxmark}}");
+	$("#qcmark").val("{{formv.qcmark}}");
+	$("#qcmaxmark").val("{{formv.qcmaxmark}}");
+	$("#qmmark").val("{{formv.qmmark}}");
+	$("#qmmaxmark").val("{{formv.qmmaxmark}}");
+	
+	$("#bp1").val("{{formv.bp1}}");	
+	$("#bp2").val("{{formv.bp2}}");
+	$("#bp3").val("{{formv.bp3}}");
+	$("#bp4").val("{{formv.bp4}}");
+	$("#bp5").val("{{formv.bp5}}");
+	$("#bp6").val("{{formv.bp6}}");		
+
+	$("#extra").val("{{formv.extra}}");
+	$("#addinfo").val("{{formv.addinfo}}");
+
+	$("#ddno").val("{{formv.ddno}}");
+	$("#dddate").val("{{formv.dddate}}");
+	$("#ddbranch").val("{{formv.ddbranch}}");
+	$("#ddbank").val("{{formv.ddbank}}");
+				
+	
+
+});
+
+
+</script>
+</head>
+<body topmargin="0" leftmargin="0">
+<center>
+
+<div  class="appform">
+
+	<form name="application" method="POST" action="/">
+	<table border="0" cellpadding="4" cellspacing="1"  bgcolor="#aacfe4" width="80%" >
+	<tbody>
+	<tr><td colspan=2><h1>Application for admission to B.Tech courses -Management Quota </h1></td><tr>
+	<tr bgcolor="white"><td bgcolor="white" colspan="2">&nbsp;</td><tr>
+<tr><td><div></div><td></tr>	
+
+<tr ><td bgcolor="#aacfe4" >Personal Information</td><tr>
+
+	<tr bgcolor="white"><td class="label">&nbsp;Name<font size="2" color="#FF0000" ><br>(as entered in the SSLC/10th certificate)</font></td><td><input type="text" id="name" name="name" class="input" size="45" maxlength="100" ><span class="error">{{forme.name}}</span></td></tr>
+
+<tr bgcolor="white"><td class="label">&nbsp;Permanent Address<br><font size=2>(with pin code)</font></td><td><textarea rows="3" cols="55"  class="input" name="paddress" id="paddress"></textarea><span class="error">{{forme.paddress}}</span></td> </tr>
+<tr bgcolor="white"><td class="label">&nbsp;Phone Numbers<font size="2" ><br>(with STD code)</font></td><td>Residential Phone&nbsp;&nbsp;<input type="text" name="resphone" id="resphone" class="input" size="15" maxlength="15" ><span class="error">{{forme.resphone}}</span><br>Mobile Phone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="mobphone" id="mobphone" class="input" size="15" maxlength="15" ><span class="error">{{forme.mobphone}}</span></td></tr>
+<tr bgcolor="white"><td class="label">Panchayath/City&nbsp;</td>
+		<td>
+		<select id="panchayath" name="panchayath" size="1" class="select" onchange="checkOthers(1);">
+			<option value="MKR">Mookkannoor</option>
+			<option value="Others">Others</option>
+		</select>
+		&nbsp;&nbsp;
+		If others,Specify &nbsp;<input id="inpanchayath"  class="input" disabled name="inpanchayath" size="25">
+</td></tr>
+<tr bgcolor="white"><td class="label">&nbsp;Address for communication<br><font size=2>(with pin code)</font></td><td>Same as permanent address &nbsp;<input type="checkbox" onclick="enableAddress(3);" name="samepaddress" id="samepaddress" value="ON"><br><textarea rows="3" cols="55"  class="input" name="caddress" id="caddress"></textarea><span class="error">{{forme.caddress}}</span></td> </tr>
+
+<tr bgcolor="white"><td class="label">&nbsp;Email</td><td><input type="text" id="email" name="email" class="input" size="45" maxlength="100" ><span class="error">{{forme.email}}</span></td></tr>
+
+<tr bgcolor="white"><td class="label">&nbsp;Date of Birth</td><td>
+		<table >
+								<tr>
+									<td><font size="2">Date&nbsp;
+										<select name="dobdate" id="dobdate" tabindex="12" size="1" class="select">
+											
+													<option value="01">01</option>														
+													<option value="02">02</option>														
+													<option value="03">03</option>									
+													<option value="04">04</option>														
+													<option value="05">05</option>														
+													<option value="06">06</option>														
+													<option value="07">07</option>														
+													<option value="08">08</option>														
+													<option value="09">09</option>														
+													<option value="10">10</option>														
+													<option value="11">11</option>														
+													<option value="12">12</option>														
+													<option value="13">13</option>														
+													<option value="14">14</option>														
+													<option value="15">15</option>														
+													<option value="16">16</option>														
+													<option value="17">17</option>														
+													<option value="18">18</option>														
+													<option value="19">19</option>														
+													<option value="20">20</option>														
+													<option value="21">21</option>														
+													<option value="22">22</option>														
+													<option value="23">23</option>														
+													<option value="24">24</option>														
+													<option value="25">25</option>														
+													<option value="26">26</option>														
+													<option value="27">27</option>														
+													<option value="28">28</option>														
+													<option value="29">29</option>														
+													<option value="30">30</option>														
+													<option value="31">31</option>														
+													</select></font></td>
+												<td ><font size="2">Month&nbsp;
+												<select name="dobmonth" id="dobmonth" size="1" class="select">
+																										
+														<option value="01">Jan</option>														
+														<option value="02">Feb</option>														
+														<option value="03">Mar</option>														
+														<option value="04">Apr</option>														
+														<option value="05">May</option>														
+														<option value="06">Jun</option>														
+														<option value="07">Jul</option>														
+														<option value="08">Aug</option>														
+														<option value="09">Sep</option>														
+														<option value="10">Oct</option>														
+														<option value="11">Nov</option>														
+														<option value="12">Dec</option>														
+													</select></font>
+												</td>
+												<td >Year&nbsp;
+                                                <font  size="2">
+												&nbsp;<select name="dobyear" id="dobyear" size="1"  class="select">
+														
+														<option value="1980">1980</option>
+														<option value="1981">1981</option>
+														<option value="1982">1982</option>
+														<option value="1983">1983</option>
+														<option value="1984">1984</option>
+														<option value="1985">1985</option>
+														<option value="1986">1986</option>
+														<option value="1987">1987</option>
+														<option value="1988">1988</option>
+														<option value="1989">1989</option>
+                                                        <option value="1990">1990</option>
+                                                        <option value="1991">1991</option>
+                                                        <option value="1992">1992</option>
+                                                        <option value="1993">1993</option>
+                                                        <option value="1994">1994</option>
+                                                        <option value="1995">1995</option>
+                                                        <option value="1996">1996</option>
+                                                        <option value="1997">1997</option>
+                                                        <option value="1998">1998</option>
+														<option value="1999">1999</option>
+														<option value="2000">2000</option>
+													</select></font></td>
+												</tr>
+												</table></td>
+
+		<tr bgcolor="white"><td class="label">&nbsp;Gender</td>
+		<td>
+		Male&nbsp;<input type="radio" name="gender" id="gender" value="M" class="input">&nbsp;&nbsp;Female&nbsp;<input class="input" type="radio"  id="gender"   name="gender" value="F">
+		</td>
+
+<tr bgcolor="white"><td class="label">&nbsp;Nationality</td><td><input type="text" id="nation" name="nation" class="input" size="20" maxlength="20" ><span class="error">{{forme.nation}}</span></td></tr>
+
+		<tr bgcolor="white"><td class="label">&nbsp;Religion</td>
+		<td>
+		<select name="religion" id="religion" size="1" class="select">
+			<option value="Hindu">Hindu</option>
+			<option value="Christian">Christian</option>
+			<option value="Muslim">Muslim</option>
+			<option value="Others">Others</option>
+		</select>
+		&nbsp;&nbsp;
+		&nbsp;Community&nbsp;<input class="input" name="caste"  id="caste" size="15">
+		&nbsp;&nbsp;
+		&nbsp;Category &nbsp;
+		<select name="category" id="category" size="1" class="select">
+			<option value="General">General</option>
+			<option value="SC">SC</option>
+			<option value="ST">ST</option>
+			<option value="OEC">OEC</option>
+			<option value="OBC">OBC</option>
+		</select>
+		</td></tr>
+
+<tr bgcolor="white"><td class="label">Father"s Details</td>
+<td>
+<table>
+	<tr><td class="label" >&nbsp;Name&nbsp;<input type="text" name="fathername" id="fathername" class="input" size="45" maxlength="100" ><span class="error">{{forme.fathername}}</span><br></td></tr>
+	<tr><td class="label">&nbsp;Occupation&nbsp;<input type="text"  name="fatherocc" id="fatherocc" class="input" size="39" maxlength="38" ></td><tr>	
+	<tr><td class="label" >&nbsp;Employed &nbsp;<input type="checkbox" onclick="enableAddress(1);" name="fatheremployed" id="fatheremployed" value="YES"></td><tr>
+	<tr><td class="label">&nbsp;Designation&nbsp;<input type="text" disabled name="fatherdesig" id="fatherdesig" class="input" size="39" maxlength="38" ></td><tr>
+	<tr><td class="label" valign="top">&nbsp;Official Address <br><textarea  rows="3" cols="55"  disabled class="input" id="fatheraddress" name="fatheraddress"></textarea><span class="error">{{forme.fatheraddress}}</span><br>
+<tr><td class="label">&nbsp;Office Phone No&nbsp;<input type="text" disabled name="fatherphone" id="fatherphone" class="input" size="15" maxlength="15" ></td><tr>
+</table></td></tr>
+
+<tr bgcolor="white"><td class="label">Mother"s Details</td>
+<td>
+<table>
+	<tr><td class="label" >&nbsp;Name&nbsp;<input type="text" name="mothername" id="mothername" class="input" size="45" maxlength="100" ><span class="error">{{forme.mothername}}</span><br></td></tr>
+	<tr><td class="label">&nbsp;Occupation&nbsp;<input type="text"  name="motherocc" id="motherocc" class="input" size="39" maxlength="38" ></td><tr>	
+	<tr><td class="label" >&nbsp;Employed &nbsp;<input type="checkbox" onclick="enableAddress(2);" name="motheremployed" id="motheremployed" value="YES"></td><tr>
+	<tr><td class="label">&nbsp;Designation&nbsp;<input type="text" disabled name="motherdesig" id="motherdesig" class="input" size="39" maxlength="38" ></td><tr>
+	<tr><td class="label" valign="top">&nbsp;Official Address <br><textarea  rows="3" cols="55"  disabled class="input" id="motheraddress" name="motheraddress"></textarea><span class="error">{{forme.motheraddress}}</span><br>
+<tr><td class="label">&nbsp;Office Phone No&nbsp;<input type="text" disabled name="motherphone" id="motherphone" class="input" size="15" maxlength="15" ></td><tr>
+</table></td></tr>
+
+     
+
+
+<tr bgcolor="white"><td class="label">&nbsp;Whether Mother/Father/Grand parent is member of FBOAES</td><td>Yes&nbsp;<input type="checkbox" onclick="enableAddress(4);" name="enablemfboaes" id="enablemfboaes" value="ON">&nbsp;<br>Membership No&nbsp;&nbsp;<input class="input" disabled name="mfboaesmemno" id="mfboaesmemno"><span class="error">{{forme.mfboaesmemno}}</span></td> </tr>
+ <tr>
+<tr bgcolor="white"><td class="label">&nbsp;Whether Mother/Father/Grand parent is patron of FBOAES</td><td>Yes&nbsp;<input type="checkbox" onclick="enableAddress(5);" name="enablepfboaes" id="enablepfboaes" value="ON">&nbsp;<br>Membership  No&nbsp;&nbsp;<input class="input"disabled name="pfboaesmemno" id="pfboaesmemno"><span class="error">{{forme.pfboaesmemno}}</span></td> </tr>
+ <tr>
+
+<tr bgcolor="white"><td class="label">&nbsp;Annual Income</td><td>Rs&nbsp;<input type="text" id="income" name="income" class="input" size="20" maxlength="20" >/-<span class="error">{{forme.income}}</span></td></tr>
+
+
+<tr><td bgcolor="#aacfe4" >Academic Qualification</td><tr>
+
+<tr bgcolor="white"><td class="label">&nbsp;Kerala Engg. Entrance Exam-2012  Details</td><td><table><tr><td >Roll No&nbsp;&nbsp;</td><td colspan=2>&nbsp;&nbsp;<input type="text" name="erollno" id="erollno" class="input" size="25" maxlength="25" ><span class="error">{{forme.erollno}}</span></td></tr><tr><td>Rank</td><td>&nbsp;&nbsp;<input type="text" name="erank" id="erank" class="input" size="25" maxlength="25" ><span class="error">{{forme.erank}}</span></td></tr>
+<tr><td>Physics and Chemistry</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="epcmark" id="epcmark" class="input" size=4>&nbsp;&nbsp;<span class="error">{{forme.epcmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="epcmaxmark" id="epcmaxmark" class="input" size=4><span class="error">{{forme.epcmaxmark}}</span></td><tr>
+<tr><td>Maths</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="emmark" id="emmark" class="input" size=4>&nbsp;&nbsp;<span class="error">{{forme.emmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="emmaxmark" id="emmaxmark" class="input" size=4><span class="error">{{forme.emmaxmark}}</span></td><tr>
+</table></td></tr>
+
+<tr bgcolor="white"><td class="label">&nbsp;Name and address of the school/institution last studied<br><font size=2>(with pin code)</font></td><td><textarea rows="3" cols="55"  class="input" name="insaddress" id="insaddress"></textarea><span class="error">{{forme.insaddress}}</span><br>&nbsp;&nbsp;Phone No<input type="text" name="insphone" id="insphone" class="input" size="15" maxlength="15" ><span class="error">{{forme.insphone}}</span>
+</td> </tr>
+
+<tr bgcolor="white"><td class="label">Qualifying Examination Details&nbsp;</td>
+<td>
+<table>
+
+		<tr><td colspan=2>	
+		Year of passing &nbsp;<input id="qualexamyear"  class="input"  name="qualexamyear" size="4"><span class="error">{{forme.qualexamyear}}</span>
+		<select id="qualexam" name="qualexam" size="1" class="select" onchange="checkOthers(2);">
+			<option value="HSC">HSC</option>
+			<option value="CBSE">AISSCE</option>
+			<option value="ICSE">ICSE</option>
+			<option value="VHSE">VHSE</option>
+			<option value="THSE">THSE</option>
+			<option value="Others">Others</option>
+		</select>&nbsp;&nbsp;If others,Specify &nbsp;<input id="inqualexam"  class="input" disabled name="inqualexam" size="15"><span class="error">{{forme.inqualexam}}</span>
+		</td></tr>
+		<tr><td colspan=2>Registration No&nbsp;&nbsp;<input type="text" name="qualexamno" id="qualexamno" class="input" size="25" maxlength="25" ><span class="error">{{forme.qualexamno}}</span></td></tr>
+		<tr><td colspan=2>Board of Examination&nbsp;&nbsp; <input type="text" name="qualboard" id="qualboard" class="input" size="35" maxlength="35" ><span class="error">{{forme.qualboard}}</span></td></tr>
+<tr><td >Physics</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="qpmark" id="qpmark" class="input" size=4><span class="error">{{forme.qpmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qpmaxmark" id="qpmaxmark" class="input" size=4><span class="error">{{forme.qpmaxmark}}</span></td><tr>
+<tr><td>Chemistry</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="qcmark" id="qcmark" class="input" size=4><span class="error">{{forme.qcmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qcmaxmark" id="qcmaxmark" class="input" size=4><span class="error">{{forme.qcmaxmark}}</span></td></tr>
+<tr><td>Maths</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="qmmark" id="qmmark" class="input" size=4><span class="error">{{forme.qmmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qmmaxmark" id="qmmaxmark" class="input" size=4><span class="error">{{forme.qmmaxmark}}</span></td></tr>
+</table>
+</td></tr>
+
+<tr><td bgcolor="#aacfe4" >Branch Preferences</td><tr>
+<tr bgcolor="white"><td class="label">Select the order of preference of branches offered.<br>All choices are mandatory&nbsp;</td>
+		<td>&nbsp;Choice 1.&nbsp;&nbsp;
+		<select id="bp1" name="bp1" size="1" class="select"">
+			<option value="0">--Select--</option>
+			<option value="ECE">Electronics & Communication Engg. (ECE)</option>
+			<option value="CSE">Computer Science & Engg. (CSE)</option>
+			<option value="EEE">Electrical & Electronics Engg. (EEE)</option>
+			<option value="EIE"> Electronics & Instrumentation Engg. (EIE)</option>
+			<option value="ME">Mechanical Engg. (ME)</option>
+			<option value="CE">Civil Engg. (EE)</option>
+		</select><span class="error">{{forme.bp1}}</span><br>
+			&nbsp;Choice 2.&nbsp;&nbsp;
+		<select id="bp2" name="bp2" size="1" class="select"">
+			<option value="0">--Select--</option>
+			<option value="ECE">Electronics & Communication Engg. (ECE)</option>
+			<option value="CSE">Computer Science & Engg. (CSE)</option>
+			<option value="EEE">Electrical & Electronics Engg. (EEE)</option>
+			<option value="EIE"> Electronics & Instrumentation Engg. (EIE)</option>
+			<option value="ME">Mechanical Engg. (ME)</option>
+			<option value="CE">Civil Engg. (EE)</option>
+		</select><span class="error">{{forme.bp2}}</span><br>
+			&nbsp;Choice 3.&nbsp;&nbsp;
+		<select id="bp3" name="bp3" size="1" class="select"">
+			<option value="0">--Select--</option>
+			<option value="ECE">Electronics & Communication Engg. (ECE)</option>
+			<option value="CSE">Computer Science & Engg. (CSE)</option>
+			<option value="EEE">Electrical & Electronics Engg. (EEE)</option>
+			<option value="EIE"> Electronics & Instrumentation Engg. (EIE)</option>
+			<option value="ME">Mechanical Engg. (ME)</option>
+			<option value="CE">Civil Engg. (EE)</option>
+		</select><span class="error">{{forme.bp3}}</span><br>
+			&nbsp;Choice 4.&nbsp;&nbsp;
+		<select id="bp4" name="bp4" size="1" class="select"">
+			<option value="0">--Select--</option>
+			<option value="ECE">Electronics & Communication Engg. (ECE)</option>
+			<option value="CSE">Computer Science & Engg. (CSE)</option>
+			<option value="EEE">Electrical & Electronics Engg. (EEE)</option>
+			<option value="EIE"> Electronics & Instrumentation Engg. (EIE)</option>
+			<option value="ME">Mechanical Engg. (ME)</option>
+			<option value="CE">Civil Engg. (EE)</option>
+		</select><span class="error">{{forme.bp4}}</span><br>
+			&nbsp;Choice 5.&nbsp;&nbsp;
+		<select id="bp5" name="bp5" size="1" class="select"">
+			<option value="0">--Select--</option>
+			<option value="ECE">Electronics & Communication Engg. (ECE)</option>
+			<option value="CSE">Computer Science & Engg. (CSE)</option>
+			<option value="EEE">Electrical & Electronics Engg. (EEE)</option>
+			<option value="EIE"> Electronics & Instrumentation Engg. (EIE)</option>
+			<option value="ME">Mechanical Engg. (ME)</option>
+			<option value="CE">Civil Engg. (EE)</option>
+		</select><span class="error">{{forme.bp5}}</span><br>
+			&nbsp;Choice 6.&nbsp;&nbsp;
+			<select id="bp6" name="bp6" size="1" class="select"">
+			<option value="0">--Select--</option>
+			<option value="ECE">Electronics & Communication Engg. (ECE)</option>
+			<option value="CSE">Computer Science & Engg. (CSE)</option>
+			<option value="EEE">Electrical & Electronics Engg. (EEE)</option>
+			<option value="EIE"> Electronics & Instrumentation Engg. (EIE)</option>
+			<option value="ME">Mechanical Engg. (ME)</option>
+			<option value="CE">Civil Engg. (CE)</option>
+		</select><span class="error">{{forme.bp6}}</span><br>
+</td></tr>
+
+<tr><td bgcolor="#aacfe4" >Additional Information</td><tr>
+<tr bgcolor="white"><td class="label">&nbsp;Extra-curricular activities</td><td><textarea rows="3" cols="55"  class="input" name="extra" id="extra"></textarea></td> </tr>
+<tr bgcolor="white"><td class="label">&nbsp;Additional Information, if any</td><td><textarea rows="3" cols="55"  class="input" name="addinfo" id="addinfo"></textarea></td> </tr>
+
+<tr><td bgcolor="#aacfe4" >Payment Information</td><tr>
+<tr bgcolor="white"><td class="label">&nbsp;Demand Draft Details</td>
+<td>
+<table>
+<tr><td class="label"">DD No</td><td><input name="ddno" id="ddno" class="input" size=12 ><span class="error">{{forme.ddno}}</span></td><td>Date(DD/MM/YYYY)</td><td><input name="dddate" id="dddate" class="input" size=10 ><span class="error">{{forme.dddate}}</span></td></tr>
+<tr><td class="label">&nbsp;&nbsp;&nbsp;&nbsp;Bank</td><td><input name="ddbank" id="ddbank" class="input" size=20 maxsize=50><span class="error">{{forme.ddbank}}</span></td><td>Branch</td><td><input name="ddbranch" id="ddbranch" class="input" size=20 maxsize=50 ><span class="error">{{forme.ddbranch}}</span></td></tr>
+</table>
+</td></tr>
+
+
+<tr bgcolor="#aacfe4"><td align="center" colspan=2 class="button"><input  value="Submit Application" type="submit"></td> </tr>
+</tbody> 
+</table>
+</form></div>
+</center>
+</body>	
+</html>					
+			
