@@ -38,7 +38,7 @@ class btechApp(db.Model):
 	pfboaesmemno=db.StringProperty()
 	income=db.StringProperty()
 	erollno=db.StringProperty()
-	enrank=db.StringProperty
+	erank=db.StringProperty()
 	epcmark=db.StringProperty()
 	epcmaxmark=db.StringProperty()
 	emmark=db.StringProperty()
@@ -46,7 +46,7 @@ class btechApp(db.Model):
 	insaddress=db.TextProperty()
 	insphone=db.PhoneNumberProperty()
 	qualboard=db.StringProperty()
-	qualexamyear=db.StringProperty
+	qualexamyear=db.StringProperty()
 	qualexamno=db.StringProperty()
 	qualexam=db.StringProperty()
 	qpmark=db.StringProperty()

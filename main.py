@@ -22,7 +22,7 @@ from reportlab.pdfbase import pdfmetrics
 import time
 from reportlab.lib.enums import TA_JUSTIFY,TA_RIGHT,TA_LEFT,TA_CENTER
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle,PageBreak
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.lib import colors
@@ -159,7 +159,7 @@ class MainPage(webapp.RequestHandler):
 		
 		btechapp.income=(form.values["income"])
 		btechapp.erollno=form.values["erollno"]
-		btechapp.enrank=form.values["erank"]
+		btechapp.erank=form.values["erank"]
 		btechapp.epcmark=(form.values["epcmark"])
 		btechapp.epcmaxmark=(form.values["epcmaxmark"])
 		btechapp.emmark=(form.values["emmark"])
@@ -568,7 +568,7 @@ class PrintApp(webapp.RequestHandler):
 		app=btechapp.fetch(1)[0]
 		self.response.headers['Content-Type'] = 'application/pdf'
 		self.response.headers['Content-Disposition'] = 'attachment;filename=%s.pdf' % appid
-		doc = SimpleDocTemplate(self.response.out,pagesize=A4,rightMargin=50,leftMargin=10,topMargin=10,bottomMargin=10)
+		doc = SimpleDocTemplate(self.response.out,pagesize=A4,rightMargin=40,leftMargin=10,topMargin=10,bottomMargin=10)
 		styles=getSampleStyleSheet()
 		styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))		
 		styles.add(ParagraphStyle(name='Left', alignment=TA_LEFT))
@@ -631,24 +631,25 @@ class PrintApp(webapp.RequestHandler):
 		pfboaesmemno=Paragraph("<para fontSize=10><b>%s</b></para>" % app.pfboaesmemno,styles["Left"])
 		incometext=Paragraph("<para fontSize=10>Annual Income</para>",styles["Left"])
 		income=Paragraph("<para fontSize=10><b>%s</b></para>" % app.income,styles["Left"])
-		eexamtext=Paragraph("<para fontSize=12><b>Kerala Entrance Exam 2012 Details</b></para>",styles["Left"])
+		eexamtext=Paragraph("<para fontSize=12><b>Kerala Entrance 2012 </b></para>",styles["Left"])
 		erollnotext=Paragraph("<para fontSize=10>Roll No</para>",styles["Left"])
 		erollno=Paragraph("<para fontSize=10><b>%s</b></para>" % app.erollno,styles["Left"])
-		eranktext=Paragraph("<para fontSize=10>Rank No</para>",styles["Left"])
-		print app.enrank
-		enrank=Paragraph("<para fontSize=10><b>%s</b></para>" % app.enrank,styles["Left"])
-		epcmarks=Paragraph("<para fontSize=10>P&C Mark:<b>%s</b>Max:<b>%s</b></para>" % (app.epcmark,app.epcmaxmark),styles["Left"])
-		emmarks=Paragraph("<para fontSize=10>M Mark:<b>%s</b>Max:<b>%s</b></para>" % (app.emmark,app.emmaxmark),styles["Left"])
-	
-		qualexamdtltext=Paragraph("<para fontSize=12><b>Qualifying Exam Details</b></para>",styles["Left"])
-		qualexamnotext=Paragraph("<para fontSize=10>Roll No</para>",styles["Left"])
-		qualexamno=Paragraph("<para fontSize=10><b>%s</b></para>" % app.qualexamno,styles["Left"])
-		qualexamboardyear=Paragraph("<para fontSize=10>Year:<b>%s</b>Board:<b>%d</b></para>"%(app.qualexamyear,qpp.qualboard),styles["Left"])
-		qualexamtext=Paragraph("<para fontSize=10>Qualifying exam:</para>" % app.erank,styles["Left"])		
+		eranktext=Paragraph("<para fontSize=10>Rank No:</para>",styles["Left"])
+		#print app.entrank
+		erank=Paragraph("<para fontSize=10><b>%s</b></para>" % app.erank,styles["Left"])
+		epcmarks=Paragraph("<para fontSize=10>Physics and Chemistry<br/>Mark:<b>%s</b>&nbsp;&nbsp;Max:<b>%s</b></para>" % (app.epcmark,app.epcmaxmark),styles["Left"])
+		emmarks=Paragraph("<para fontSize=10>Maths<br/>Mark:<b>%s</b>&nbsp;&nbsp;Max:<b>%s</b></para>" % (app.emmark,app.emmaxmark),styles["Left"])
+		qualexamdtltext=Paragraph("<para fontSize=12><b>Qualifying Exam</b></para>",styles["Left"])
+		qualexamno=Paragraph("<para fontSize=10>Roll No:<b>%s</b></para>"% app.qualexamno,styles["Left"])
+		qualexamboardyear=Paragraph("<para fontSize=10>Year:<b>%s</b><br/>Board:<b>%s</b></para>" % (app.qualexamyear,app.qualboard),styles["Left"])
+		qualexamtext=Paragraph("<para fontSize=10>Qualifying exam:</para>",styles["Left"])		
 		qualexam=Paragraph("<para fontSize=10><b>%s</b></para>" % app.qualexam,styles["Left"])
-		qpmarks=Paragraph("<para fontSize=10>P Mark:<b>%s</b>Max:<b>%s</b></para>" % (app.qpmark,app.qpmaxmark),styles["Left"])
-		qcmarks=Paragraph("<para fontSize=10>C Mark:<b>%s</b>Max:<b>%s</b></para>" % (app.qcmark,app.qcmaxmark),styles["Left"])
-		qmmarks=Paragraph("<para fontSize=10>M Mark:<b>%s</b>Max:<b>%s</b></para>" % (app.qmmark,app.qmmaxmark),styles["Left"])
+		qpmarks=Paragraph("<para fontSize=10>Physics<br/>Mark:<b>%s</b>&nbsp;&nbsp;Max:<b>%s</b></para>" % (app.qpmark,app.qpmaxmark),styles["Left"])
+		qcmarks=Paragraph("<para fontSize=10>Chemistry<br/> Mark:<b>%s</b>&nbsp;&nbsp;Max:<b>%s</b></para>" % (app.qcmark,app.qcmaxmark),styles["Left"])
+		qmmarks=Paragraph("<para fontSize=10>Maths<br/>Mark:<b>%s</b>&nbsp;&nbsp;Max:<b>%s</b></para>" % (app.qmmark,app.qmmaxmark),styles["Left"])
+		
+		
+
 		data=[[paddresstext,paddress,caddresstext,caddress],
 				[dobtext,dob,emailtext,email],
 				[panchayathtext,panchayath,nationtext,nation],
@@ -663,7 +664,9 @@ class PrintApp(webapp.RequestHandler):
 				[incometext,income],
 				[eexamtext,"",qualexamdtltext,""],
 				[erollnotext,erollno,qualexamtext,qualexam],
-				[eranktext,erank,qualexamboardyear]]
+				[eranktext,erank,qualexamboardyear,qualexamno],
+				[epcmarks,emmarks,qpmarks,qcmarks,qmmarks],
+				[PageBreak()]	]
 		
 		appidtext='<para fontSize=12>APPLICATION ID:%s %sINSTITUTE COPY</b></para>' %(appid,self.add_space(50))
 		institle=Paragraph("<para fontSize=15>FEDERAL INSTITUTE OF SCIENCE AND TECHNOLOGY (FISAT)<font size='10'><super>TM</super></font></para>",styles["Center"])
