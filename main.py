@@ -195,13 +195,13 @@ class MainPage(webapp.RequestHandler):
 	def post(self):
 		form=defaults()
 		form.values["name"]=self.request.get("name").strip()
-		form.values["paddress"]=self.request.get("paddress").strip().replace("\n"," ").replace("\r"," ")
+		form.values["paddress"]=self.request.get("paddress").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")
 		form.values["resphone"]=self.request.get("resphone").strip()
 		form.values["mobphone"]=self.request.get("mobphone").strip()
 		form.values["panchayath"]=self.request.get("panchayath").strip()
 		form.values["inpanchayath"]=self.request.get("inpanchayath").strip()
 		form.values["samepaddress"]=self.request.get("samepaddress").strip()
-		form.values["caddress"]=self.request.get("caddress").strip().replace("\n"," ").replace("\r"," ")
+		form.values["caddress"]=self.request.get("caddress").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")
 		form.values["email"]=self.request.get("email").strip()
 		form.values["dobdate"]=self.request.get("dobdate").strip()
 		form.values["dobmonth"]=self.request.get("dobmonth").strip()
@@ -215,13 +215,13 @@ class MainPage(webapp.RequestHandler):
 		form.values["fatheremployed"]=self.request.get("fatheremployed").strip()
 		form.values["fatherocc"]=self.request.get("fatherocc").strip()
 		form.values["fatherdesig"]=self.request.get("fatherdesig").strip()
-		form.values["fatheraddress"]=self.request.get("fatheraddress").strip().replace("\n"," ").replace("\r"," ")
+		form.values["fatheraddress"]=self.request.get("fatheraddress").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")
 		form.values["fatherphone"]=self.request.get("fatherphone").strip()
 		form.values["mothername"]=self.request.get("mothername").strip()
 		form.values["motheremployed"]=self.request.get("motheremployed").strip()
 		form.values["motherocc"]=self.request.get("motherocc").strip()
 		form.values["motherdesig"]=self.request.get("motherdesig").strip()
-		form.values["motheraddress"]=self.request.get("motheraddress").strip().replace("\n"," ").replace("\r"," ")
+		form.values["motheraddress"]=self.request.get("motheraddress").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")
 		form.values["motherphone"]=self.request.get("motherphone").strip()
 		form.values["enablemfboaes"]=self.request.get("enablemfboaes").strip()
 		form.values["mfboaesmemno"]=self.request.get("mfboaesmemno").strip()
@@ -234,7 +234,7 @@ class MainPage(webapp.RequestHandler):
 		form.values["epcmaxmark"]=self.request.get("epcmaxmark").strip()
 		form.values["emmark"]=self.request.get("emmark").strip()
 		form.values["emmaxmark"]=self.request.get("emmaxmark").strip()
-		form.values["insaddress"]=self.request.get("insaddress").strip().replace("\n"," ").replace("\r"," ")
+		form.values["insaddress"]=self.request.get("insaddress").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")
 		form.values["insphone"]=self.request.get("insphone").strip()
 		form.values["qualboard"]=self.request.get("qualboard").strip()
 		form.values["qualexamyear"]=self.request.get("qualexamyear").strip()
@@ -253,8 +253,8 @@ class MainPage(webapp.RequestHandler):
 		form.values["bp4"]=self.request.get("bp4").strip()
 		form.values["bp5"]=self.request.get("bp5").strip()
 		form.values["bp6"]=self.request.get("bp6").strip()
-		form.values["extra"]=self.request.get("extra").strip().replace("\n"," ").replace("\r"," ")
-		form.values["addinfo"]=self.request.get("addinfo").strip().replace("\n"," ").replace("\r"," ")
+		form.values["extra"]=self.request.get("extra").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")
+		form.values["addinfo"]=self.request.get("addinfo").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")
 		form.values["ddno"]=self.request.get("ddno").strip()
 		form.values["dddate"]=self.request.get("dddate").strip()
 		form.values["ddbank"]=self.request.get("ddbank").strip()
@@ -539,7 +539,7 @@ class PrintApp(webapp.RequestHandler):
 	def add_space(self,no):
 		spaces=""
 		for i in range(0,no):
-			spaces=spaces+"&nbsp;"
+			spaces=spaces+"        "
 		return spaces
 
 	def post(self):
@@ -626,13 +626,13 @@ class PrintApp(webapp.RequestHandler):
 		
 
 		mfboaesmemnotext=Paragraph("<para fontSize=10>FBOAES(Member) Membership No:</para>",styles["Left"])
-		mfboaesmemno=Paragraph("<para fontSize=10><b>%s</b></para>" % app.mfboaesmemno,styles["Left"])
+		mfboaesmemno=Paragraph("<para fontSize=10><br/><b>%s</b></para>" % app.mfboaesmemno,styles["Left"])
 		pfboaesmemnotext=Paragraph("<para fontSize=10>FBOAES(Patron) Membership No:</para>",styles["Left"])
-		pfboaesmemno=Paragraph("<para fontSize=10><b>%s</b></para>" % app.pfboaesmemno,styles["Left"])
-		incometext=Paragraph("<para fontSize=10>Annual Income</para>",styles["Left"])
+		pfboaesmemno=Paragraph("<para fontSize=10>br/><b>%s</b></para>" % app.pfboaesmemno,styles["Left"])
+		incometext=Paragraph("<para fontSize=10>Annual Income:</para>",styles["Left"])
 		income=Paragraph("<para fontSize=10><b>%s</b></para>" % app.income,styles["Left"])
 		eexamtext=Paragraph("<para fontSize=12><b>Kerala Entrance 2012 </b></para>",styles["Left"])
-		erollnotext=Paragraph("<para fontSize=10>Roll No</para>",styles["Left"])
+		erollnotext=Paragraph("<para fontSize=10>Roll No:</para>",styles["Left"])
 		erollno=Paragraph("<para fontSize=10><b>%s</b></para>" % app.erollno,styles["Left"])
 		eranktext=Paragraph("<para fontSize=10>Rank No:</para>",styles["Left"])
 		#print app.entrank
@@ -649,8 +649,21 @@ class PrintApp(webapp.RequestHandler):
 		qmmarks=Paragraph("<para fontSize=10>Maths<br/>Mark:<b>%s</b>&nbsp;&nbsp;Max:<b>%s</b></para>" % (app.qmmark,app.qmmaxmark),styles["Left"])
 		
 		
+		choicetitle=Paragraph("<para fontSize=12><b>Branch preferences</b></para>",styles["Left"])
+		choice1=Paragraph("<para fontSize=10>Choice1:<b>%s</b></para>" % (app.bp1),styles["Left"])
+		choice2=Paragraph("<para fontSize=10>Choice2:<b>%s</b></para>" % (app.bp2),styles["Left"])
+		choice3=Paragraph("<para fontSize=10>Choice3:<b>%s</b></para>" % (app.bp3),styles["Left"])
+		choice4=Paragraph("<para fontSize=10>Choice4:<b>%s</b></para>" % (app.bp4),styles["Left"])
+		choice5=Paragraph("<para fontSize=10>Choice5:<b>%s</b></para>" % (app.bp5),styles["Left"])
+		choice6=Paragraph("<para fontSize=10>Choice6:<b>%s</b></para>" % (app.bp6),styles["Left"])
+		insttext=Paragraph("<para fontSize=10><b>Name and address of the school/institution last studied:</b><br/>%s<para>" %  (app.insaddress),styles["Left"])
+		insphone=Paragraph("<para fontSize=10><b>Phone:</b><br/>%s</para>" %  (app.insphone),styles["Left"])
+		extratext=Paragraph("<para fontSize=10><b>Extra-curricular activities:</b><br/>%s<para>" %  (app.extra),styles["Left"])
+		addinfo=Paragraph("<para fontSize=10><b>Additional Information:</b><br/>%s</para>" %  (app.addinfo),styles["Left"])		
+		ddnodate=Paragraph("<para fontSize=10><b>Extra-curricular activities:</b><br/>%s<para>" %  (app.extra),styles["Left"])
+		addinfo=Paragraph("<para fontSize=10><b>Additional Information:</b><br/>%s</para>" %  (app.addinfo),styles["Left"])		
 
-		data=[[paddresstext,paddress,caddresstext,caddress],
+		page1data=[[paddresstext,paddress,caddresstext,caddress],
 				[dobtext,dob,emailtext,email],
 				[panchayathtext,panchayath,nationtext,nation],
 				[nationtext,nation,religiontext,religion],
@@ -666,28 +679,49 @@ class PrintApp(webapp.RequestHandler):
 				[erollnotext,erollno,qualexamtext,qualexam],
 				[eranktext,erank,qualexamboardyear,qualexamno],
 				[epcmarks,emmarks,qpmarks,qcmarks,qmmarks],
-				[PageBreak()]	]
+				
+					]
+		page2data=[[choicetitle],
+					[choice1,choice2,choice3,choice4,choice5,choice6],
+						]
+		
+		page3data=[[insttext,insphone],
+					[extratext,addinfo]]
 		
 		appidtext='<para fontSize=12>APPLICATION ID:%s %sINSTITUTE COPY</b></para>' %(appid,self.add_space(50))
 		institle=Paragraph("<para fontSize=15>FEDERAL INSTITUTE OF SCIENCE AND TECHNOLOGY (FISAT)<font size='10'><super>TM</super></font></para>",styles["Center"])
-		iso=Paragraph("<para fontSize=10>(ISO 9001 :2000 Certitied Engineering College managed by the Federal Bank Officer's Association Educational Society)</para>",styles["Center"])
-		address=Paragraph("<para fontSize=11><b>HORMIS NAGAR, MOOKANNOOR P.O., ANGAMALY - 683 577, KERALA</b></para>",styles["Center"])
+		iso=Paragraph("<para fontSize=10>(ISO 9001:2000 Certified Engineering College managed by the Federal Bank Officers' Association Educational Society)</para>",styles["Center"])
+		address=Paragraph("<para fontSize=11><b>HORMIS NAGAR, MOOKKANNOOR P.O., ANGAMALY - 683 577, KERALA</b></para>",styles["Center"])
 		approval=Paragraph("<para fontSize=11>(Approved by AICTE - Affiliated to Mahatma Gandhi University, Kottayam)</para>",styles["Center"])
-		web=Paragraph("<para fontSize=11>Website: www.fisat.ac.in E-mail: mai@fisat.ac.in</para>",styles["Center"])	
+		web=Paragraph("<para fontSize=11>Website: www.fisat.ac.in E-mail: mail@fisat.ac.in</para>",styles["Center"])	
+		
+		
+		
+		barcode=code39.Extended39(appid,barWidth=0.5*mm,barHeight=15*mm,humanReadable=True)		
+		photo=Image('photo.jpg',36*mm, 36*mm)
+		Category=Paragraph("<para fontSize=10><b>Category: General</b><br/><br/><br/></para>",styles["Left"])
 		
 		titletable=Table([[institle],[iso],[address],[approval],[web]])
 		titletable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),
 								('VALIGN',(0,0),(-1,-1),'TOP'),
 								]))
-		
-		barcode=code39.Extended39(appid,barWidth=0.5*mm,barHeight=15*mm,humanReadable=True)		
-		photo=Image('photo.jpg',2.1*inch, 2.1*inch)
-		Category=Paragraph("<para fontSize=10><b>Category:General</b><br/><br/><br/></para>",styles["Left"])
-		datatable=Table(data)
-		datatable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
-								('VALIGN',(0,0),(-1,-1),'TOP'),
+		linetable=Table([[self.add_space(13),self.add_space(13)]])
+		linetable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),
+								('LINEABOVE',(0,0),(-1,-1),2,colors.black),
 								]))
 		
+		page1table=Table(page1data)
+		page1table.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
+								('VALIGN',(0,0),(-1,-1),'TOP'),
+								]))
+		page2table=Table(page2data)
+		page2table.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
+								('VALIGN',(0,0),(-1,-1),'TOP'),
+								]))
+		page3table=Table(page3data)
+		page3table.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
+								('VALIGN',(0,0),(-1,-1),'TOP'),
+								]))
 		
 		basicinfotable=Table([[nametext,name],[resphonetext,resphone],[mobphonetext,mobphone],[gendertext,gender]])
 		basicinfotable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
@@ -707,10 +741,15 @@ class PrintApp(webapp.RequestHandler):
 		App.append(Paragraph(appidtext, styles["Justify"]))
 		App.append(Spacer(3, 12))
 		App.append(titletable)
+		App.append(linetable)
 		App.append(Spacer(1, 12))
 		App.append(infotable)
 		App.append(Spacer(3, 12))
-		App.append(datatable)
+		App.append(page1table)
+		App.append(linetable)
+		App.append(page2table)
+		App.append(linetable)
+		App.append(page3table)
 		doc.build(App)
 		
 

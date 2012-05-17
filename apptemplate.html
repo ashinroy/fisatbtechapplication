@@ -278,6 +278,7 @@ $(document).ready(function () {
 	$("#emmaxmark").val("{{formv.emmaxmark}}");
 	$("#insaddress").val("{{formv.insaddress}}");
 	$("#insphone").val("{{formv.insphone}}");
+	$("#nation").val("{{formv.nation}}");
 	$("#qualexamyear").val("{{formv.qualexamyear}}");
 	$("#qualexamno").val("{{formv.qualexamno}}");
 	$("#qualexamyear").val("{{formv.qualexamyear}}");
@@ -497,15 +498,7 @@ $(document).ready(function () {
 
 <tr><td bgcolor="#aacfe4" >Academic Qualification</td><tr>
 
-<tr bgcolor="white"><td class="label">&nbsp;Kerala Engg. Entrance Exam-2012  Details</td><td><table><tr><td >Roll No&nbsp;&nbsp;</td><td colspan=2>&nbsp;&nbsp;<input type="text" name="erollno" id="erollno" class="input" size="25" maxlength="25" ><span class="error">{{forme.erollno}}</span></td></tr><tr><td>Rank</td><td>&nbsp;&nbsp;<input type="text" name="erank" id="erank" class="input" size="25" maxlength="25" ><span class="error">{{forme.erank}}</span></td></tr>
-<tr><td>Physics and Chemistry</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="epcmark" id="epcmark" class="input" size=4>&nbsp;&nbsp;<span class="error">{{forme.epcmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="epcmaxmark" id="epcmaxmark" class="input" size=4><span class="error">{{forme.epcmaxmark}}</span></td><tr>
-<tr><td>Maths</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="emmark" id="emmark" class="input" size=4>&nbsp;&nbsp;<span class="error">{{forme.emmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="emmaxmark" id="emmaxmark" class="input" size=4><span class="error">{{forme.emmaxmark}}</span></td><tr>
-</table></td></tr>
-
-<tr bgcolor="white"><td class="label">&nbsp;Name and address of the school/institution last studied<br><font size=2>(with pin code)</font></td><td><textarea rows="3" cols="55"  class="input" name="insaddress" id="insaddress"></textarea><span class="error">{{forme.insaddress}}</span><br>&nbsp;&nbsp;Phone No<input type="text" name="insphone" id="insphone" class="input" size="15" maxlength="15" ><span class="error">{{forme.insphone}}</span>
-</td> </tr>
-
-<tr bgcolor="white"><td class="label">Qualifying Examination Details&nbsp;</td>
+<tr bgcolor="white"><td class="label">Qualifying Examination Details(+2)&nbsp;</td>
 <td>
 <table>
 
@@ -527,6 +520,16 @@ $(document).ready(function () {
 <tr><td>Maths</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="qmmark" id="qmmark" class="input" size=4><span class="error">{{forme.qmmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qmmaxmark" id="qmmaxmark" class="input" size=4><span class="error">{{forme.qmmaxmark}}</span></td></tr>
 </table>
 </td></tr>
+
+<tr bgcolor="white"><td class="label">&nbsp;Kerala Engg. Entrance Exam-2012  Details</td><td><table><tr><td >Roll No&nbsp;&nbsp;</td><td colspan=2>&nbsp;&nbsp;<input type="text" name="erollno" id="erollno" class="input" size="25" maxlength="25" ><span class="error">{{forme.erollno}}</span></td></tr><tr><td>Rank</td><td>&nbsp;&nbsp;<input type="text" name="erank" id="erank" class="input" size="25" maxlength="25" ><span class="error">{{forme.erank}}</span></td></tr>
+<tr><td>Physics and Chemistry</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="epcmark" id="epcmark" class="input" size=4>&nbsp;&nbsp;<span class="error">{{forme.epcmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="epcmaxmark" id="epcmaxmark" class="input" size=4><span class="error">{{forme.epcmaxmark}}</span></td><tr>
+<tr><td>Maths</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="emmark" id="emmark" class="input" size=4>&nbsp;&nbsp;<span class="error">{{forme.emmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="emmaxmark" id="emmaxmark" class="input" size=4><span class="error">{{forme.emmaxmark}}</span></td><tr>
+</table></td></tr>
+
+<tr bgcolor="white"><td class="label">&nbsp;Name and address of the school/institution last studied<br><font size=2>(with pin code)</font></td><td><textarea rows="3" cols="55"  class="input" name="insaddress" id="insaddress"></textarea><span class="error">{{forme.insaddress}}</span><br>&nbsp;&nbsp;Phone No<input type="text" name="insphone" id="insphone" class="input" size="15" maxlength="15" ><span class="error">{{forme.insphone}}</span>
+</td> </tr>
+
+
 
 <tr><td bgcolor="#aacfe4" >Branch Preferences</td><tr>
 <tr bgcolor="white"><td class="label">Select the order of preference of branches offered.<br>All choices are mandatory&nbsp;</td>
