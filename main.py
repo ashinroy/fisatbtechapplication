@@ -196,8 +196,8 @@ class MainPage(webapp.RequestHandler):
 		form=defaults()
 		form.values["name"]=self.request.get("name").strip()
 		form.values["paddress"]=self.request.get("paddress").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")
-		form.values["resphone"]=self.request.get("resphone").strip()
-		form.values["mobphone"]=self.request.get("mobphone").strip()
+		form.values["resphone"]=self.request.get("resphone").strip().replace(" ","")
+		form.values["mobphone"]=self.request.get("mobphone").strip().replace(" ","")
 		form.values["panchayath"]=self.request.get("panchayath").strip()
 		form.values["inpanchayath"]=self.request.get("inpanchayath").strip()
 		form.values["samepaddress"]=self.request.get("samepaddress").strip()
@@ -222,7 +222,7 @@ class MainPage(webapp.RequestHandler):
 		form.values["motherocc"]=self.request.get("motherocc").strip()
 		form.values["motherdesig"]=self.request.get("motherdesig").strip()
 		form.values["motheraddress"]=self.request.get("motheraddress").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")
-		form.values["motherphone"]=self.request.get("motherphone").strip()
+		form.values["motherphone"]=self.request.get("motherphone").strip().replace(" ","")
 		form.values["enablemfboaes"]=self.request.get("enablemfboaes").strip()
 		form.values["mfboaesmemno"]=self.request.get("mfboaesmemno").strip()
 		form.values["enablepfboaes"]=self.request.get("enablepfboaes").strip()
@@ -235,7 +235,7 @@ class MainPage(webapp.RequestHandler):
 		form.values["emmark"]=self.request.get("emmark").strip()
 		form.values["emmaxmark"]=self.request.get("emmaxmark").strip()
 		form.values["insaddress"]=self.request.get("insaddress").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")
-		form.values["insphone"]=self.request.get("insphone").strip()
+		form.values["insphone"]=self.request.get("insphone").strip().replace(" ","")
 		form.values["qualboard"]=self.request.get("qualboard").strip()
 		form.values["qualexamyear"]=self.request.get("qualexamyear").strip()
 		form.values["qualexamno"]=self.request.get("qualexamno").strip()
@@ -568,7 +568,7 @@ class PrintApp(webapp.RequestHandler):
 		app=btechapp.fetch(1)[0]
 		self.response.headers['Content-Type'] = 'application/pdf'
 		self.response.headers['Content-Disposition'] = 'attachment;filename=%s.pdf' % appid
-		doc = SimpleDocTemplate(self.response.out,pagesize=A4,rightMargin=40,leftMargin=10,topMargin=10,bottomMargin=10)
+		doc = SimpleDocTemplate(self.response.out,pagesize=A4,rightMargin=20,leftMargin=20,topMargin=20,bottomMargin=20)
 		styles=getSampleStyleSheet()
 		styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))		
 		styles.add(ParagraphStyle(name='Left', alignment=TA_LEFT))
@@ -674,13 +674,17 @@ class PrintApp(webapp.RequestHandler):
 				[fatherdesigtext,fatherdesig,motherdesigtext,motherdesig],
 				[fatheraddresstext,fatheraddress,motheraddresstext,motheraddress],
 				[fatherphonetext,fatherphone,motherphonetext,motherphone],
-				[incometext,income],
-				[eexamtext,"",qualexamdtltext,""],
-				[erollnotext,erollno,qualexamtext,qualexam],
-				[eranktext,erank,qualexamboardyear,qualexamno],
-				[epcmarks,emmarks,qpmarks,qcmarks,qmmarks],
-				
-					]
+				[incometext,income]]
+
+		eexamtabledata=[[eexamtext],
+				[erollnotext,erollno,eranktext,erank],
+				[qualexamboardyear,qualexamno],
+				[epcmarks,emmarks]]
+		qexamtabledata=[[qualexamdtltext],
+						[qualexamtext,qualexam],
+						[qualexamboardyear,qualexamno],
+						[qpmarks,qcmarks,qmmarks]]
+
 		page2data=[[choicetitle],
 					[choice1,choice2,choice3,choice4,choice5,choice6],
 						]
@@ -699,7 +703,7 @@ class PrintApp(webapp.RequestHandler):
 		
 		barcode=code39.Extended39(appid,barWidth=0.5*mm,barHeight=15*mm,humanReadable=True)		
 		photo=Image('photo.jpg',36*mm, 36*mm)
-		Category=Paragraph("<para fontSize=10><b>Category: General</b><br/><br/><br/></para>",styles["Left"])
+		Category=Paragraph("<para fontSize=10><b>Category: General</b><br/></para>",styles["Left"])
 		
 		titletable=Table([[institle],[iso],[address],[approval],[web]])
 		titletable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),
@@ -707,9 +711,18 @@ class PrintApp(webapp.RequestHandler):
 								]))
 		linetable=Table([[self.add_space(13),self.add_space(13)]])
 		linetable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),
-								('LINEABOVE',(0,0),(-1,-1),2,colors.black),
+								('LINEBELOW',(0,0),(-1,-1),2,colors.black),
 								]))
 		
+		qexamtable=Table(qexamtabledata)
+		qexamtable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
+								('VALIGN',(0,0),(-1,-1),'TOP'),]))
+
+		eexamtable=Table(eexamtabledata)
+		eexamtable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
+								('VALIGN',(0,0),(-1,-1),'TOP'),]))
+
+
 		page1table=Table(page1data)
 		page1table.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
 								('VALIGN',(0,0),(-1,-1),'TOP'),
@@ -725,6 +738,7 @@ class PrintApp(webapp.RequestHandler):
 		
 		basicinfotable=Table([[nametext,name],[resphonetext,resphone],[mobphonetext,mobphone],[gendertext,gender]])
 		basicinfotable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
+								('GRID',(0,0),(-1,-1),2,colors.black),
 								('VALIGN',(0,0),(-1,-1),'TOP'),
 								]))				
 	
@@ -737,6 +751,7 @@ class PrintApp(webapp.RequestHandler):
 		infotable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),
 								('VALIGN',(0,0),(-1,-1),'TOP'),
 								]))
+		
 		App=[]
 		App.append(Paragraph(appidtext, styles["Justify"]))
 		App.append(Spacer(3, 12))
@@ -747,9 +762,14 @@ class PrintApp(webapp.RequestHandler):
 		App.append(Spacer(3, 12))
 		App.append(page1table)
 		App.append(linetable)
+		App.append(eexamtable)
+		App.append(linetable)
+		App.append(qexamtable)
+		App.append(linetable)
 		App.append(page2table)
 		App.append(linetable)
 		App.append(page3table)
+		doc.watermark="helloworld"
 		doc.build(App)
 		
 
