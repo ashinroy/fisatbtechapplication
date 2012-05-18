@@ -334,7 +334,7 @@ $(document).ready(function () {
 
 <tr ><td bgcolor="#aacfe4" >Personal Information</td><tr>
 
-	<tr bgcolor="white"><td class="label">&nbsp;Name<font size="2" color="#FF0000" ><br>(as entered in the SSLC/10th certificate)</font></td><td><input type="text" id="name" name="name" class="input" size="45" maxlength="100" ><span class="error">{{forme.name}}</span></td></tr>
+	<tr bgcolor="white"><td class="label">&nbsp;Name<font size="2" color="#FF0000" ><br>(as entered in the SSLC/10th certificate and without "." symbol)</font></td><td><input type="text" id="name" name="name" class="input" size="45" maxlength="100" ><span class="error">{{forme.name}}</span></td></tr>
 
 <tr bgcolor="white"><td class="label">&nbsp;Permanent Address<br><font size=2>(with pin code)</font></td><td><textarea rows="3" cols="55"  class="input" name="paddress" id="paddress"></textarea><span class="error">{{forme.paddress}}</span></td> </tr>
 <tr bgcolor="white"><td class="label">&nbsp;Phone Numbers<font size="2" ><br>(with STD code)</font></td><td>Residential Phone&nbsp;&nbsp;<input type="text" name="resphone" id="resphone" class="input" size="15" maxlength="15" ><span class="error">{{forme.resphone}}</span><br>Mobile Phone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="mobphone" id="mobphone" class="input" size="15" maxlength="15" ><span class="error">{{forme.mobphone}}</span></td></tr>
@@ -460,6 +460,7 @@ $(document).ready(function () {
 			<option value="ST">ST</option>
 			<option value="OEC">OEC</option>
 			<option value="OBC">OBC</option>
+			<option value="OBC">Others</option>
 		</select>
 		</td></tr>
 
@@ -505,16 +506,16 @@ $(document).ready(function () {
 		<tr><td colspan=2>	
 		Year of passing &nbsp;<input id="qualexamyear"  class="input"  name="qualexamyear" size="4"><span class="error">{{forme.qualexamyear}}</span>
 		<select id="qualexam" name="qualexam" size="1" class="select" onchange="checkOthers(2);">
-			<option value="HSC">HSC</option>
-			<option value="CBSE">AISSCE</option>
+			<option value="HSE">HSC</option>
+			<option value="AISSCE">AISSCE(CBSE)</option>
 			<option value="ICSE">ICSE</option>
 			<option value="VHSE">VHSE</option>
 			<option value="THSE">THSE</option>
 			<option value="Others">Others</option>
 		</select>&nbsp;&nbsp;If others,Specify &nbsp;<input id="inqualexam"  class="input" disabled name="inqualexam" size="15"><span class="error">{{forme.inqualexam}}</span>
 		</td></tr>
-		<tr><td colspan=2>Registration No&nbsp;&nbsp;<input type="text" name="qualexamno" id="qualexamno" class="input" size="25" maxlength="25" ><span class="error">{{forme.qualexamno}}</span></td></tr>
-		<tr><td colspan=2>Board of Examination&nbsp;&nbsp; <input type="text" name="qualboard" id="qualboard" class="input" size="35" maxlength="35" ><span class="error">{{forme.qualboard}}</span></td></tr>
+		<tr><td colspan=2>Registration No&nbsp;&nbsp;<input type="text" name="qualexamno" id="qualexamno" class="input" size="80" maxlength="80" ><span class="error">{{forme.qualexamno}}</span></td></tr>
+		<tr><td colspan=2>Board of Examination&nbsp;&nbsp; <input type="text" name="qualboard" id="qualboard" class="input" size="80" maxlength="80" ><span class="error">{{forme.qualboard}}</span></td></tr>
 <tr><td >Physics</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="qpmark" id="qpmark" class="input" size=4><span class="error">{{forme.qpmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qpmaxmark" id="qpmaxmark" class="input" size=4><span class="error">{{forme.qpmaxmark}}</span></td><tr>
 <tr><td>Chemistry</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="qcmark" id="qcmark" class="input" size=4><span class="error">{{forme.qcmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qcmaxmark" id="qcmaxmark" class="input" size=4><span class="error">{{forme.qcmaxmark}}</span></td></tr>
 <tr><td>Maths</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="qmmark" id="qmmark" class="input" size=4><span class="error">{{forme.qmmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qmmaxmark" id="qmmaxmark" class="input" size=4><span class="error">{{forme.qmmaxmark}}</span></td></tr>
@@ -541,7 +542,7 @@ $(document).ready(function () {
 			<option value="EEE">Electrical & Electronics Engg. (EEE)</option>
 			<option value="EIE"> Electronics & Instrumentation Engg. (EIE)</option>
 			<option value="ME">Mechanical Engg. (ME)</option>
-			<option value="CE">Civil Engg. (EE)</option>
+			<option value="CE">Civil Engg. (CE)</option>
 		</select><span class="error">{{forme.bp1}}</span><br>
 			&nbsp;Choice 2.&nbsp;&nbsp;
 		<select id="bp2" name="bp2" size="1" class="select"">
@@ -551,7 +552,7 @@ $(document).ready(function () {
 			<option value="EEE">Electrical & Electronics Engg. (EEE)</option>
 			<option value="EIE"> Electronics & Instrumentation Engg. (EIE)</option>
 			<option value="ME">Mechanical Engg. (ME)</option>
-			<option value="CE">Civil Engg. (EE)</option>
+			<option value="CE">Civil Engg. (CE)</option>
 		</select><span class="error">{{forme.bp2}}</span><br>
 			&nbsp;Choice 3.&nbsp;&nbsp;
 		<select id="bp3" name="bp3" size="1" class="select"">
@@ -561,7 +562,7 @@ $(document).ready(function () {
 			<option value="EEE">Electrical & Electronics Engg. (EEE)</option>
 			<option value="EIE"> Electronics & Instrumentation Engg. (EIE)</option>
 			<option value="ME">Mechanical Engg. (ME)</option>
-			<option value="CE">Civil Engg. (EE)</option>
+			<option value="CE">Civil Engg. (CE)</option>
 		</select><span class="error">{{forme.bp3}}</span><br>
 			&nbsp;Choice 4.&nbsp;&nbsp;
 		<select id="bp4" name="bp4" size="1" class="select"">
@@ -571,7 +572,7 @@ $(document).ready(function () {
 			<option value="EEE">Electrical & Electronics Engg. (EEE)</option>
 			<option value="EIE"> Electronics & Instrumentation Engg. (EIE)</option>
 			<option value="ME">Mechanical Engg. (ME)</option>
-			<option value="CE">Civil Engg. (EE)</option>
+			<option value="CE">Civil Engg. (CE)</option>
 		</select><span class="error">{{forme.bp4}}</span><br>
 			&nbsp;Choice 5.&nbsp;&nbsp;
 		<select id="bp5" name="bp5" size="1" class="select"">
@@ -581,7 +582,7 @@ $(document).ready(function () {
 			<option value="EEE">Electrical & Electronics Engg. (EEE)</option>
 			<option value="EIE"> Electronics & Instrumentation Engg. (EIE)</option>
 			<option value="ME">Mechanical Engg. (ME)</option>
-			<option value="CE">Civil Engg. (EE)</option>
+			<option value="CE">Civil Engg. (CE)</option>
 		</select><span class="error">{{forme.bp5}}</span><br>
 			&nbsp;Choice 6.&nbsp;&nbsp;
 			<select id="bp6" name="bp6" size="1" class="select"">
