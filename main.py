@@ -22,7 +22,7 @@ from reportlab.pdfbase import pdfmetrics
 import time
 from reportlab.lib.enums import TA_JUSTIFY,TA_RIGHT,TA_LEFT,TA_CENTER
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle,PageBreak
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle,PageBreak,CondPageBreak,NextPageTemplate
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.lib import colors
@@ -62,17 +62,7 @@ class MainPage(webapp.RequestHandler):
 		RE = re.compile("^[0-9-]+$")
 		return (RE.match(year) and len(year)==4)
 	
-	def print_pdf(self,form):
-		bulk="hi"
-		self.response.headers['Content-Type'] = 'application/pdf'
-		self.response.headers['Content-Disposition'] = 'attachment; filename=my.pdf'
-		doc = SimpleDocTemplate(self.response.out,pagesize=letter,rightMargin=72,leftMargin=72,topMargin=72,bottomMargin=18)
-		styles=getSampleStyleSheet()
-		styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))		
-		Story=[]
-		Story.append(Paragraph(bulk, styles["Justify"]))
-		Story.append(Spacer(1, 12))
-		doc.build(Story)
+	
 	
 	def rot13alg(self,letter):
 		L="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -99,7 +89,15 @@ class MainPage(webapp.RequestHandler):
 			pass
 		appid="F12"+a1+a2+str(rollno)
 		return appid
-
+	def check_id(self,erollno):
+		btechapp=btechApp.all()
+		btechapp.filter("erollno =",erollno)
+		try:		
+			app=btechapp.fetch(1)[0]
+			return True
+		except:
+			return False
+		
 
 	def save_form(self,form):
 		btechapp=btechApp()
@@ -185,6 +183,7 @@ class MainPage(webapp.RequestHandler):
 		btechapp.bp6=form.values["bp6"]
 		btechapp.extra=form.values["extra"]
 		btechapp.addinfo=form.values["addinfo"]
+		btechapp.ddno=form.values["ddno"]
 		btechapp.dddate=form.values["dddate"]
 		btechapp.ddbank=form.values["ddbank"]
 		btechapp.ddbranch=form.values["ddbranch"]
@@ -518,8 +517,15 @@ class MainPage(webapp.RequestHandler):
 		else:
 			form.errors['ddbranch']="&nbsp;Invalid "
 			error=1
+		formerror={"error":""}
 		if error==1:
-			values={"formv":form.values,"forme":form.errors}
+			formerror['error']="Some of the fields are invalid. Please check. "	
+		if self.check_id(form.values['erollno']):
+			formerror['error']="Your application already exist.Try reprint application or send mail to admission@fisat.ac.in."
+			error=1
+		
+		if error==1:
+			values={"formv":form.values,"forme":form.errors,"formerror":formerror}
 			path = os.path.join(os.path.dirname(__file__), 'apptemplate.html')
 			self.response.out.write(template.render(path, values))
 			
@@ -568,7 +574,7 @@ class PrintApp(webapp.RequestHandler):
 		app=btechapp.fetch(1)[0]
 		self.response.headers['Content-Type'] = 'application/pdf'
 		self.response.headers['Content-Disposition'] = 'attachment;filename=%s.pdf' % appid
-		doc = SimpleDocTemplate(self.response.out,pagesize=A4,rightMargin=20,leftMargin=20,topMargin=20,bottomMargin=20)
+		doc = SimpleDocTemplate(self.response.out,pagesize=A4,rightMargin=20,leftMargin=20,topMargin=30,bottomMargin=30)
 		styles=getSampleStyleSheet()
 		styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))		
 		styles.add(ParagraphStyle(name='Left', alignment=TA_LEFT))
@@ -578,10 +584,10 @@ class PrintApp(webapp.RequestHandler):
 
 		nametext=Paragraph("<para fontSize=10>Name:</para>",styles["Left"])
 		name=Paragraph("<para fontSize=10><b>%s</b></para>" % app.name,styles["Left"])
-		paddresstext=Paragraph("<para fontSize=10>Permanent Address:</para>",styles["Left"])
-		caddress=Paragraph("<para fontSize=10><b>%s</b></para>" % app.caddress,styles["Left"])
+		paddresstext=Paragraph("<para fontSize=10>Permanent Address:</para>",styles["Justify"])
+		caddress=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.caddress),styles["Left"])
 		caddresstext=Paragraph("<para fontSize=10>Communication Address:</para>",styles["Left"])
-		paddress=Paragraph("<para fontSize=10><b>%s</b></para>" % app.paddress,styles["Left"])
+		paddress=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.paddress),styles["Justify"])
 		dobtext=Paragraph("<para fontSize=10>Date of Birth:</para>",styles["Left"])		
 		dob=Paragraph("<para fontSize=10><b>%s</b></para>" % app.dob,styles["Left"])
 		emailtext=Paragraph("<para fontSize=10>Email:</para>",styles["Left"])		
@@ -612,7 +618,7 @@ class PrintApp(webapp.RequestHandler):
 		fatherphonetext=Paragraph("<para fontSize=10>Phone:</para>",styles["Left"])
 		fatherphone=Paragraph("<para fontSize=10><b>%s</b></para>" % app.fatherphone,styles["Left"])
 		fatheraddresstext=Paragraph("<para fontSize=10>Address:</para>",styles["Left"])
-		fatheraddress=Paragraph("<para fontSize=10><b>%s</b></para>" % app.fatheraddress,styles["Left"])
+		fatheraddress=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.fatheraddress),styles["Left"])
 		mothernametext=Paragraph("<para fontSize=10>Mother's Name:</para>",styles["Left"])
 		mothername=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.mothername),styles["Left"])
 		motherocctext=Paragraph("<para fontSize=10>Occupation:</para>",styles["Left"])
@@ -620,7 +626,7 @@ class PrintApp(webapp.RequestHandler):
 		motherdesigtext=Paragraph("<para fontSize=10>Designation:</para>",styles["Left"])
 		motherdesig=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.motherdesig),styles["Left"])
 		motheraddresstext=Paragraph("<para fontSize=10>Address:</para>",styles["Left"])
-		motheraddress=Paragraph("<para fontSize=10><b>%s</b></para>" % app.motheraddress,styles["Left"])
+		motheraddress=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.motheraddress),styles["Left"])
 		motherphonetext=Paragraph("<para fontSize=10>Phone:</para>",styles["Left"])
 		motherphone=Paragraph("<para fontSize=10><b>%s</b></para>" % app.motherphone,styles["Left"])
 		
@@ -628,7 +634,7 @@ class PrintApp(webapp.RequestHandler):
 		mfboaesmemnotext=Paragraph("<para fontSize=10>FBOAES(Member) Membership No:</para>",styles["Left"])
 		mfboaesmemno=Paragraph("<para fontSize=10><br/><b>%s</b></para>" % app.mfboaesmemno,styles["Left"])
 		pfboaesmemnotext=Paragraph("<para fontSize=10>FBOAES(Patron) Membership No:</para>",styles["Left"])
-		pfboaesmemno=Paragraph("<para fontSize=10>br/><b>%s</b></para>" % app.pfboaesmemno,styles["Left"])
+		pfboaesmemno=Paragraph("<para fontSize=10><b>%s</b></para>" % app.pfboaesmemno,styles["Left"])
 		incometext=Paragraph("<para fontSize=10>Annual Income:</para>",styles["Left"])
 		income=Paragraph("<para fontSize=10><b>%s</b></para>" % app.income,styles["Left"])
 		eexamtext=Paragraph("<para fontSize=12><b>Kerala Entrance 2012 </b></para>",styles["Left"])
@@ -660,10 +666,23 @@ class PrintApp(webapp.RequestHandler):
 		insphone=Paragraph("<para fontSize=10><b>Phone:</b><br/>%s</para>" %  (app.insphone),styles["Left"])
 		extratext=Paragraph("<para fontSize=10><b>Extra-curricular activities:</b><br/>%s<para>" %  (app.extra),styles["Left"])
 		addinfo=Paragraph("<para fontSize=10><b>Additional Information:</b><br/>%s</para>" %  (app.addinfo),styles["Left"])		
-		ddnodate=Paragraph("<para fontSize=10><b>Extra-curricular activities:</b><br/>%s<para>" %  (app.extra),styles["Left"])
-		addinfo=Paragraph("<para fontSize=10><b>Additional Information:</b><br/>%s</para>" %  (app.addinfo),styles["Left"])		
+		payinfo=Paragraph("<para fontSize=12><b>Payment Information</b></para>",styles["Left"])		
+		ddno=Paragraph("<para fontSize=10><b>DD No:</b><br/>%s<para>" %  (app.ddno),styles["Left"])
+		dddate=Paragraph("<para fontSize=10><b>DD Date:</b><br/>%s<para>" %  (app.dddate),styles["Left"])
+		ddbank=Paragraph("<para fontSize=10><b>Bank:</b><br/>%s<para>" %  (app.ddbank),styles["Left"])
+		ddbranch=Paragraph("<para fontSize=10><b>Branch:</b><br/>%s<para>" %  (app.ddbranch),styles["Left"])
+		
+		applicantdec=Paragraph("<para fontSize=10><b>Declaration</b><br/><br/>I hereby solemnly affirm that the statement made and information furnished in my application and also in all the enclosures there to submitted by me are true. I declare that, I shall, if admitted, abide by the rules and regulations of the college. I will not engage in any undesirable activity either inside or outside the College that will adversely affect the orderly working, discipline and the reputation of the college.</b><br/></para>",styles["Justify"])
+		station=Paragraph("<para fontSize=10>Station:</para>",styles["Left"])
+		sign=Paragraph("<para fontSize=10>Signature:</para>",styles["Left"])
+		date=Paragraph("<para fontSize=10>Date:</para>",styles["Left"])
+		appname=Paragraph("<para fontSize=10>Name:%s</para>" % app.name	,styles["Left"])
 
-		page1data=[[paddresstext,paddress,caddresstext,caddress],
+		parentdec=Paragraph("<para fontSize=10> If my son/daughter/ward <b>%s</b> is admitted to the College,I hereby undertake to see to his/her good conduct and discipline within and outside the College.</b><br/></para>"% app.name,styles["Justify"])
+		parentname=Paragraph("<para fontSize=10>Name:</para>" 	,styles["Left"])	
+		officeusetext=Paragraph("<para fontSize=10><b>Office Use</b><br/><br/><br/>Certificate is verified by ............................................<br/><br/><br/><br/>Admitted to Branch ..........on ....................................<br/><br/><br/><br/><br/><br/>Administrative Officer / Superintendent </para>",styles["Left"])
+
+		personifodata=[[paddresstext,paddress,caddresstext,caddress],
 				[dobtext,dob,emailtext,email],
 				[panchayathtext,panchayath,nationtext,nation],
 				[nationtext,nation,religiontext,religion],
@@ -678,21 +697,28 @@ class PrintApp(webapp.RequestHandler):
 
 		eexamtabledata=[[eexamtext],
 				[erollnotext,erollno,eranktext,erank],
-				[qualexamboardyear,qualexamno],
 				[epcmarks,emmarks]]
 		qexamtabledata=[[qualexamdtltext],
 						[qualexamtext,qualexam],
 						[qualexamboardyear,qualexamno],
 						[qpmarks,qcmarks,qmmarks]]
 
-		page2data=[[choicetitle],
+		choicedata=[[choicetitle],
 					[choice1,choice2,choice3,choice4,choice5,choice6],
 						]
 		
-		page3data=[[insttext,insphone],
+		extradata=[[insttext,insphone],
 					[extratext,addinfo]]
+		payinfodata=[[payinfo],[ddno,dddate],[ddbank,ddbranch]]
+
+		appdecdata=[[applicantdec],[station,sign],[date,appname]]
+		parentdecdata=[[parentdec],[station,sign],[date,parentname]]
 		
-		appidtext='<para fontSize=12>APPLICATION ID:%s %sINSTITUTE COPY</b></para>' %(appid,self.add_space(50))
+		appidtext=Paragraph("<para fontSize=12>APPLICATION ID: %s" % appid,styles["Left"])
+		inscopy=Paragraph("<para fontSize=12>INSTITUTE COPY</b></para>",styles["Right"])
+		candcopy=Paragraph("<para fontSize=12>CANDIDATE COPY</b></para>",styles["Right"])
+		
+		
 		institle=Paragraph("<para fontSize=15>FEDERAL INSTITUTE OF SCIENCE AND TECHNOLOGY (FISAT)<font size='10'><super>TM</super></font></para>",styles["Center"])
 		iso=Paragraph("<para fontSize=10>(ISO 9001:2000 Certified Engineering College managed by the Federal Bank Officers' Association Educational Society)</para>",styles["Center"])
 		address=Paragraph("<para fontSize=11><b>HORMIS NAGAR, MOOKKANNOOR P.O., ANGAMALY - 683 577, KERALA</b></para>",styles["Center"])
@@ -705,13 +731,17 @@ class PrintApp(webapp.RequestHandler):
 		photo=Image('photo.jpg',36*mm, 36*mm)
 		Category=Paragraph("<para fontSize=10><b>Category: General</b><br/></para>",styles["Left"])
 		
+		headerinstable=Table([[appidtext,inscopy]])
+		headercantable=Table([[appidtext,candcopy]])
+
+		
 		titletable=Table([[institle],[iso],[address],[approval],[web]])
 		titletable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),
 								('VALIGN',(0,0),(-1,-1),'TOP'),
 								]))
-		linetable=Table([[self.add_space(13),self.add_space(13)]])
+		linetable=Table([[self.add_space(13),self.add_space(13)]],rowHeights =[5*mm])
 		linetable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),
-								('LINEBELOW',(0,0),(-1,-1),2,colors.black),
+								('LINEBELOW',(0,0),(-1,-1),.2*mm,colors.black),
 								]))
 		
 		qexamtable=Table(qexamtabledata)
@@ -723,22 +753,45 @@ class PrintApp(webapp.RequestHandler):
 								('VALIGN',(0,0),(-1,-1),'TOP'),]))
 
 
-		page1table=Table(page1data)
-		page1table.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
+		personifotable=Table(personifodata)
+		personifotable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
+								('ALIGN',(1,0),(1,0),'LEFT'),
 								('VALIGN',(0,0),(-1,-1),'TOP'),
 								]))
-		page2table=Table(page2data)
-		page2table.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
+		choicetable=Table(choicedata)
+		choicetable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
 								('VALIGN',(0,0),(-1,-1),'TOP'),
+								('SPAN',(0,0),(1,0)),
 								]))
-		page3table=Table(page3data)
-		page3table.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
+		extratable=Table(extradata)
+		extratable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
 								('VALIGN',(0,0),(-1,-1),'TOP'),
 								]))
 		
+		choicetable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
+								('VALIGN',(0,0),(-1,-1),'TOP'),
+								('SPAN',(0,0),(1,0)),
+								]))		
+		payinotable=Table(payinfodata)
+		appdectable=Table(appdecdata)		
+		appdectable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
+								('VALIGN',(0,0),(-1,-1),'TOP'),
+								('SPAN',(0,0),(1,0)),
+								]))				
+		
+		parentdectable=Table(parentdecdata)		
+		parentdectable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
+								('VALIGN',(0,0),(-1,-1),'TOP'),
+								('SPAN',(0,0),(1,0)),
+								]))				
+		officeusetable=Table([[officeusetext,barcode]],rowHeights=[70*mm])
+		officeusetable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),
+								('VALIGN',(0,0),(-1,-1),'CENTER'),
+								('OUTLINE',(0,0),(-1,-1),.2*mm,colors.black),
+								]))		
+
 		basicinfotable=Table([[nametext,name],[resphonetext,resphone],[mobphonetext,mobphone],[gendertext,gender]])
 		basicinfotable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'LEFT'),
-								('GRID',(0,0),(-1,-1),2,colors.black),
 								('VALIGN',(0,0),(-1,-1),'TOP'),
 								]))				
 	
@@ -750,33 +803,72 @@ class PrintApp(webapp.RequestHandler):
 		infotable=Table([[metatable,photo]])
 		infotable.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),
 								('VALIGN',(0,0),(-1,-1),'TOP'),
+								('OUTLINE',(0,0),(-1,-1),.2*mm,colors.black),
 								]))
 		
 		App=[]
-		App.append(Paragraph(appidtext, styles["Justify"]))
+		App.append(headerinstable)
 		App.append(Spacer(3, 12))
 		App.append(titletable)
-		App.append(linetable)
 		App.append(Spacer(1, 12))
 		App.append(infotable)
 		App.append(Spacer(3, 12))
-		App.append(page1table)
+		App.append(personifotable)
 		App.append(linetable)
 		App.append(eexamtable)
 		App.append(linetable)
 		App.append(qexamtable)
 		App.append(linetable)
-		App.append(page2table)
+		App.append(choicetable)
 		App.append(linetable)
-		App.append(page3table)
-		doc.watermark="helloworld"
+		App.append(extratable)
+		App.append(linetable)
+		App.append(payinotable)
+		App.append(linetable)
+		App.append(appdectable)
+		App.append(linetable)
+		App.append(parentdectable)
+		App.append(linetable)
+		App.append(officeusetable )
+		App.append(headerinstable)
+		insbreak=CondPageBreak(700)
+		App.append(insbreak)
+
+		App.append(headercantable)
+		App.append(Spacer(3, 12))
+		App.append(titletable)
+		App.append(Spacer(1, 12))
+		App.append(infotable)
+		App.append(Spacer(3, 12))
+		App.append(personifotable)
+		App.append(linetable)
+		App.append(eexamtable)
+		App.append(linetable)
+		App.append(qexamtable)
+		App.append(linetable)
+		App.append(choicetable)
+		#App.append(linetable)
+		App.append(extratable)
+		App.append(linetable)
+		App.append(payinotable)
+		App.append(linetable)
+		App.append(appdectable)
+		App.append(linetable)
+		App.append(parentdectable)
+		App.append(linetable)
+		#App.append(officeusetable )
+		App.append(headercantable)
 		doc.build(App)
+
+class ReprintApp(webapp.RequestHandler):
+	pass
 		
 
 application = webapp.WSGIApplication(
                                      [('/', MainPage),
 									 ('/print', PrintApp),
-									('/submit', SubmitApp)],	
+									('/submit', SubmitApp),
+									('/reprint',ReprintApp)],	
                                      debug=True)
 
 def main():
