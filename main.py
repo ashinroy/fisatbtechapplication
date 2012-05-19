@@ -28,13 +28,25 @@ from reportlab.lib.units import inch
 from reportlab.lib import colors
 from reportlab.graphics.barcode import code39
 from reportlab.lib.units import mm,inch
-
+from os import environ
+import recaptcha 
 folderFonts = os.path.dirname(reportlab.__file__) + os.sep + 'fonts'
+
+def get_captcha(error=None):
+	chtml = recaptcha.displayhtml(public_key = "6LdlodESAAAAAOe3WjJCRjUyk2w4aCpG8O-Nt5Xg",use_ssl = False,error = error)
+	return chtml
+
+def validate_captcha(challenge,response,remoteip):
+	cResponse = recaptcha.submit(challenge,response,"6LdlodESAAAAAI-6LiN3pQ87i07kLZUb1G6TDw_p",remoteip)
+	return cResponse
+
+
 
 class MainPage(webapp.RequestHandler):
 	def get(self):
 		form=defaults()
-		values={"formv":form.values,"forme":form.errors}
+		chtml=get_captcha()
+		values={"formv":form.values,"forme":form.errors,'captchahtml': chtml}
 		path = os.path.join(os.path.dirname(__file__), 'apptemplate.html')
 		self.response.out.write(template.render(path, values))
 	def validate_name(self,name):
@@ -187,6 +199,7 @@ class MainPage(webapp.RequestHandler):
 		btechapp.dddate=form.values["dddate"]
 		btechapp.ddbank=form.values["ddbank"]
 		btechapp.ddbranch=form.values["ddbranch"]
+		btechapp.clientip=environ['REMOTE_ADDR']
 		btechapp.put()
 		return appid
 
@@ -258,7 +271,9 @@ class MainPage(webapp.RequestHandler):
 		form.values["dddate"]=self.request.get("dddate").strip()
 		form.values["ddbank"]=self.request.get("ddbank").strip()
 		form.values["ddbranch"]=self.request.get("ddbranch").strip()
-		
+		challenge = self.request.get('recaptcha_challenge_field')
+		response  = self.request.get('recaptcha_response_field')
+		remoteip  = environ['REMOTE_ADDR']				
 		error=0
 		if self.validate_name(form.values['name']):
 			form.errors['name']=""
@@ -356,41 +371,42 @@ class MainPage(webapp.RequestHandler):
 			form.errors['erollno']=""
 			
 		else:
-			form.errors['erollno']="&nbsp;Invalid Roll No"
+			form.errors['erollno']="&nbsp;Invalid"
 			error=1
 		if self.validate_erank(form.values['erank']):
 			form.errors['erank']=""
 			
 		else: 		
-			form.errors['erank']="&nbsp;Invalid Rank"
-			error=1 
+			form.errors['erank']=""#"&nbsp;Invalid Rank"
+			form.values['erank']="NA"
+			#error=1 
 
 		if self.validate_mark(form.values['epcmark']):
 			form.errors['epcmark']=""
 			
 		else: 		
-			form.errors['epcmark']="&nbsp;Invalid  Mark"
+			form.errors['epcmark']="&nbsp;Invalid"
 			error=1 
 
 		if self.validate_mark(form.values['epcmaxmark']):
 			form.errors['epcmaxmark']=""
 			
 		else: 		
-			form.errors['epcmaxmark']="&nbsp;Invalid Mark"
+			form.errors['epcmaxmark']="&nbsp;Invalid"
 			error=1 
 		
 		if self.validate_mark(form.values['emmark']):
 			form.errors['emmark']=""
 			
 		else: 		
-			form.errors['emmark']="&nbsp;Invalid  Mark"
+			form.errors['emmark']="&nbsp;Invalid"
 			error=1 
 
 		if self.validate_mark(form.values['emmaxmark']):
 			form.errors['emmaxmark']=""
 			
 		else: 		
-			form.errors['emmaxmark']="&nbsp;Invalid Mark"
+			form.errors['emmaxmark']="&nbsp;Invalid"
 			error=1 
 		if len(form.values['insaddress'])>address_length:
 			form.errors['insaddress']=""
@@ -409,23 +425,23 @@ class MainPage(webapp.RequestHandler):
 			form.errors['qualexamyear']=""
 			
 		else:
-			form.errors['qualexamyear']="&nbsp;Invalid Year"
+			form.errors['qualexamyear']="&nbsp;Invalid"
 			error=1
 		if len(form.values['qualexamno'])>qualexamno_length:
 			form.errors['nation']=""
 			
 		else: 		
-			form.errors['qualexamno']="&nbsp;Invalid Roll No"
+			form.errors['qualexamno']="&nbsp;Invalid"
 			error=1 		
 		if	form.values['qualexam']=='Others':
 			if len(form.values['inqualexam'])>qualexam_length:
 				form.errors['inqualexam']=""
 			else:
-				form.errors['inqualexam']="Invalid Exam Name"
+				form.errors['inqualexam']="Invalid"
 		if len(form.values['qualboard'])>qualboard_length:
 			form.errors['qualboard']=""
 		else:
-			form.errors['qualboard']="Invalid Board Name"
+			form.errors['qualboard']="Invalid"
 		
 		if self.validate_mark(form.values['qpmark']):
 			form.errors['qpmark']=""
@@ -523,10 +539,17 @@ class MainPage(webapp.RequestHandler):
 		if self.check_id(form.values['erollno']):
 			formerror['error']="Your application already exist.Try reprint application or send mail to admission@fisat.ac.in."
 			error=1
-		
+		captcha=validate_captcha(challenge,response,remoteip)
+		if captcha.is_valid:
+			form.errors['captcha']=""
+		else:
+			form.errors['captcha']="Invalid input"
+			error=1			
 		if error==1:
-			values={"formv":form.values,"forme":form.errors,"formerror":formerror}
+			chtml=get_captcha(captcha.error_code)
+			values={"formv":form.values,"forme":form.errors,"formerror":formerror,'captchahtml': chtml}
 			path = os.path.join(os.path.dirname(__file__), 'apptemplate.html')
+			
 			self.response.out.write(template.render(path, values))
 			
 		else:
@@ -535,11 +558,25 @@ class MainPage(webapp.RequestHandler):
 			self.redirect("/submit?appid="+appid,permanent=True)		
 
 class SubmitApp(webapp.RequestHandler):
+		def check_id(self,appid):
+			btechapp=btechApp.all()
+			btechapp.filter("appid =",appid)
+			try:		
+				app=btechapp.fetch(1)[0]
+				return True
+			except:
+				return False
 		def get(self):
-			appid=self.request.get("appid")
-			values={"form":{"appid":appid}}
-			path = os.path.join(os.path.dirname(__file__), 'appprint.html')
-			self.response.out.write(template.render(path, values))
+			appid=self.request.get("appid").replace(" ","").replace("\\","").replace(".","")
+			if self.check_id(appid):
+				values={"form":{"appid":appid}}
+				path = os.path.join(os.path.dirname(__file__), 'appprint.html')
+				self.response.out.write(template.render(path, values))
+			else:
+				self.redirect("/h404",permanent=True)
+				
+			
+			
 
 class PrintApp(webapp.RequestHandler):
 	def add_space(self,no):
@@ -547,7 +584,7 @@ class PrintApp(webapp.RequestHandler):
 		for i in range(0,no):
 			spaces=spaces+"        "
 		return spaces
-
+	
 	def post(self):
 		appid=self.request.get("appid")
 	 	self.print_pdf(appid)
@@ -876,9 +913,9 @@ class ReprintApp(webapp.RequestHandler):
 			return strline
 		except:
 			return line
-	def check_id(self,erollno):
+	def check_id(self,appid):
 		btechapp=btechApp.all()
-		btechapp.filter("erollno =",erollno)
+		btechapp.filter("appid =",appid)
 		try:		
 			app=btechapp.fetch(1)[0]
 			return True
@@ -894,15 +931,18 @@ class ReprintApp(webapp.RequestHandler):
 		reprint={"error":""}
 		values={"reprint":reprint}
 		appid=self.request.get("appid")
-		print appid[5:]
-		if self.check_id(appid[4:]):
+		if self.check_id(appid):
 			self.print_pdf(appid)
 			pass
 		else:
-			reprint["error"]="Application ID does not exist. Please contact college"
+			reprint["error"]="Application ID does not exist. Please contact college."
 			path = os.path.join(os.path.dirname(__file__), 'reprint.html')
 			self.response.out.write(template.render(path, values))
-		
+	def add_space(self,no):
+		spaces=""
+		for i in range(0,no):
+			spaces=spaces+"        "
+		return spaces
 		
 	def print_pdf(self,appid):
 		
@@ -1197,12 +1237,18 @@ class ReprintApp(webapp.RequestHandler):
 		App.append(headercantable)
 		doc.build(App)
 		
+class h404Handler(webapp.RequestHandler):
+		def get(self):
+			values=""
+			path = os.path.join(os.path.dirname(__file__), '404.html')
+			self.response.out.write(template.render(path, values))
 
 application = webapp.WSGIApplication(
                                      [('/', MainPage),
 									 ('/print', PrintApp),
 									('/submit', SubmitApp),
-									('/reprint',ReprintApp)],	
+									('/reprint',ReprintApp),
+									('/h404',h404Handler)],	
                                      debug=True)
 
 def main():
