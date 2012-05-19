@@ -143,4 +143,5 @@ class defaults():
 			"ddno":"",
 			"dddate":"",
 			"ddbank":"",
-			"ddbranch":""}
+			"ddbranch":"",
+			"captcha":""}

@@ -328,34 +328,34 @@ $(document).ready(function () {
 	<form name="application" method="POST" action="/">
 	<table border="0" cellpadding="4" cellspacing="1"  bgcolor="#aacfe4" width="80%" >
 	<tbody>
-	<tr><td colspan=2><h1>Application for admission to B.Tech courses -Management Quota </h1></td><tr>
+	<tr><td colspan=2><h1>FISAT Admission 2012 <br><font size=4>Application for admission to B.Tech courses -Management Quota</font> </h1></td><tr>
 	<tr bgcolor="white"><td bgcolor="white" colspan="2">&nbsp;</td><tr>
-<tr><td><div><span class="error">{{formerror.error}}</span></div><td></tr>	
+<tr><td colspan=2><div><span class="error">{{formerror.error}}</span></div><td></tr>	
 
 <tr ><td bgcolor="#aacfe4" >Personal Information</td><tr>
 
-	<tr bgcolor="white"><td class="label">&nbsp;Name<font size="2" color="#FF0000" ><br>(as entered in the SSLC/10th certificate and without "." symbol)</font></td><td><input type="text" id="name" name="name" class="input" size="45" maxlength="100" ><span class="error">{{forme.name}}</span></td></tr>
+	<tr bgcolor="white"><td class="label">&nbsp;Name<font size="2" color="#FF0000" ><br>(as entered in the SSLC/10th certificate and without "." symbol)</font></td><td><input type="text" id="name" name="name" class="input" size="45" maxlength="100" tabindex=1><span class="error">{{forme.name}}</span></td></tr>
 
-<tr bgcolor="white"><td class="label">&nbsp;Permanent Address<br><font size=2>(with pin code)</font></td><td><textarea rows="3" cols="55"  class="input" name="paddress" id="paddress"></textarea><span class="error">{{forme.paddress}}</span></td> </tr>
-<tr bgcolor="white"><td class="label">&nbsp;Phone Numbers<font size="2" ><br>(with STD code)</font></td><td>Residential Phone&nbsp;&nbsp;<input type="text" name="resphone" id="resphone" class="input" size="15" maxlength="15" ><span class="error">{{forme.resphone}}</span><br>Mobile Phone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="mobphone" id="mobphone" class="input" size="15" maxlength="15" ><span class="error">{{forme.mobphone}}</span></td></tr>
+<tr bgcolor="white"><td class="label">&nbsp;Permanent Address<br><font size=2>(with pin code)</font></td><td><textarea rows="3" cols="55"  class="input" name="paddress" id="paddress" tabindex=2 </textarea><span class="error">{{forme.paddress}}</span></td> </tr>
+<tr bgcolor="white"><td class="label">&nbsp;Phone Numbers<font size="2" ><br>(with STD code)</font></td><td>Residential Phone&nbsp;&nbsp;<input type="text" name="resphone" id="resphone" class="input" size="15" maxlength="15" tabindex=3><span class="error">{{forme.resphone}}</span><br>Mobile Phone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="mobphone" id="mobphone" class="input" size="15" maxlength="15"tabindex=4 ><span class="error">{{forme.mobphone}}</span></td></tr>
 <tr bgcolor="white"><td class="label">Panchayath/City&nbsp;</td>
 		<td>
-		<select id="panchayath" name="panchayath" size="1" class="select" onchange="checkOthers(1);">
+		<select id="panchayath" name="panchayath" tabindex=5 size="1" class="select" onchange="checkOthers(1);">
 			<option value="MKR">Mookkannoor</option>
 			<option value="Others">Others</option>
 		</select>
 		&nbsp;&nbsp;
-		If others,Specify &nbsp;<input id="inpanchayath"  class="input" disabled name="inpanchayath" size="25">
+		If others,Specify &nbsp;<input id="inpanchayath"  class="input" disabled name="inpanchayath" size="25" tabindex=6>
 </td></tr>
-<tr bgcolor="white"><td class="label">&nbsp;Address for communication<br><font size=2>(with pin code)</font></td><td>Same as permanent address &nbsp;<input type="checkbox" onclick="enableAddress(3);" name="samepaddress" id="samepaddress" value="ON"><br><textarea rows="3" cols="55"  class="input" name="caddress" id="caddress"></textarea><span class="error">{{forme.caddress}}</span></td> </tr>
+<tr bgcolor="white"><td class="label">&nbsp;Address for communication<br><font size=2>(with pin code)</font></td><td>Same as permanent address &nbsp;<input type="checkbox" onclick="enableAddress(3);" name="samepaddress" id="samepaddress" value="ON" tabindex=7><br><textarea rows="3" cols="55"  class="input" name="caddress" id="caddress" tabindex=8></textarea><span class="error">{{forme.caddress}}</span></td> </tr>
 
-<tr bgcolor="white"><td class="label">&nbsp;Email</td><td><input type="text" id="email" name="email" class="input" size="45" maxlength="100" ><span class="error">{{forme.email}}</span></td></tr>
+<tr bgcolor="white"><td class="label">&nbsp;Email</td><td><input type="text" id="email" name="email" class="input" size="45" maxlength="100" tabindex=9><span class="error">{{forme.email}}</span></td></tr>
 
 <tr bgcolor="white"><td class="label">&nbsp;Date of Birth</td><td>
 		<table >
 								<tr>
 									<td><font size="2">Date&nbsp;
-										<select name="dobdate" id="dobdate" tabindex="12" size="1" class="select">
+										<select name="dobdate" id="dobdate" tabindex="10" size="1" class="select" tabindex=10>
 											
 													<option value="01">01</option>														
 													<option value="02">02</option>														
@@ -390,7 +390,7 @@ $(document).ready(function () {
 													<option value="31">31</option>														
 													</select></font></td>
 												<td ><font size="2">Month&nbsp;
-												<select name="dobmonth" id="dobmonth" size="1" class="select">
+												<select name="dobmonth" id="dobmonth" size="1" class="select" tabindex=11>
 																										
 														<option value="01">Jan</option>														
 														<option value="02">Feb</option>														
@@ -408,7 +408,7 @@ $(document).ready(function () {
 												</td>
 												<td >Year&nbsp;
                                                 <font  size="2">
-												&nbsp;<select name="dobyear" id="dobyear" size="1"  class="select">
+												&nbsp;<select name="dobyear" id="dobyear" size="1"  class="select" tabindex=12>
 														
 														<option value="1980">1980</option>
 														<option value="1981">1981</option>
@@ -437,7 +437,7 @@ $(document).ready(function () {
 
 		<tr bgcolor="white"><td class="label">&nbsp;Gender</td>
 		<td>
-		Male&nbsp;<input type="radio" name="gender" id="gender" value="M" class="input">&nbsp;&nbsp;Female&nbsp;<input class="input" type="radio"  id="gender"   name="gender" value="F">
+		Male&nbsp;<input type="radio" name="gender" id="gender" value="M" class="input" tabindex=13>&nbsp;&nbsp;Female&nbsp;<input class="input" type="radio"  id="gender"   name="gender" value="F" tabindex=14>
 		</td>
 
 <tr bgcolor="white"><td class="label">&nbsp;Nationality</td><td><input type="text" id="nation" name="nation" class="input" size="20" maxlength="20" ><span class="error">{{forme.nation}}</span></td></tr>
@@ -514,8 +514,8 @@ $(document).ready(function () {
 			<option value="Others">Others</option>
 		</select>&nbsp;&nbsp;If others,Specify &nbsp;<input id="inqualexam"  class="input" disabled name="inqualexam" size="15"><span class="error">{{forme.inqualexam}}</span>
 		</td></tr>
-		<tr><td colspan=2>Registration No&nbsp;&nbsp;<input type="text" name="qualexamno" id="qualexamno" class="input" size="80" maxlength="80" ><span class="error">{{forme.qualexamno}}</span></td></tr>
-		<tr><td colspan=2>Board of Examination&nbsp;&nbsp; <input type="text" name="qualboard" id="qualboard" class="input" size="80" maxlength="80" ><span class="error">{{forme.qualboard}}</span></td></tr>
+		<tr><td colspan=2>Registration No&nbsp;&nbsp;<input type="text" name="qualexamno" id="qualexamno" class="input" size="45" maxlength="100" ><span class="error">{{forme.qualexamno}}</span></td></tr>
+		<tr><td colspan=2>Board of Examination&nbsp;&nbsp; <input type="text" name="qualboard" id="qualboard" class="input" size="45" maxlength="100" ><span class="error">{{forme.qualboard}}</span></td></tr>
 <tr><td >Physics</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="qpmark" id="qpmark" class="input" size=4><span class="error">{{forme.qpmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qpmaxmark" id="qpmaxmark" class="input" size=4><span class="error">{{forme.qpmaxmark}}</span></td><tr>
 <tr><td>Chemistry</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="qcmark" id="qcmark" class="input" size=4><span class="error">{{forme.qcmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qcmaxmark" id="qcmaxmark" class="input" size=4><span class="error">{{forme.qcmaxmark}}</span></td></tr>
 <tr><td>Maths</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="qmmark" id="qmmark" class="input" size=4><span class="error">{{forme.qmmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qmmaxmark" id="qmmaxmark" class="input" size=4><span class="error">{{forme.qmmaxmark}}</span></td></tr>
@@ -606,9 +606,10 @@ $(document).ready(function () {
 <table>
 <tr><td class="label"">DD No</td><td><input name="ddno" id="ddno" class="input" size=12 ><span class="error">{{forme.ddno}}</span></td><td>Date(DD/MM/YYYY)</td><td><input name="dddate" id="dddate" class="input" size=10 ><span class="error">{{forme.dddate}}</span></td></tr>
 <tr><td class="label">&nbsp;&nbsp;&nbsp;&nbsp;Bank</td><td><input name="ddbank" id="ddbank" class="input" size=20 maxsize=50><span class="error">{{forme.ddbank}}</span></td><td>Branch</td><td><input name="ddbranch" id="ddbranch" class="input" size=20 maxsize=50 ><span class="error">{{forme.ddbranch}}</span></td></tr>
+
 </table>
 </td></tr>
-
+<tr bgcolor="#aacfe4"><td><span class="error">{{forme.captcha}}</span></td><td align="left" colspan=2 >{{ captchahtml }}</td> </tr>
 
 <tr bgcolor="#aacfe4"><td align="center" colspan=2 class="button"><input  value="Submit Application" type="submit"></td> </tr>
 </tbody> 

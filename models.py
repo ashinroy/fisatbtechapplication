@@ -67,7 +67,7 @@ class btechApp(db.Model):
 	dddate=db.StringProperty()
 	ddbank=db.StringProperty()
 	ddbranch=db.StringProperty()
-
+	clientip=db.StringProperty()
 
 
 	
