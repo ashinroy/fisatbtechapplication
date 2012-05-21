@@ -62,7 +62,7 @@ function enableAddress(x) {
 		{
 			
 			document.application.caddress.disabled=true;
-			$("#caddress").val("");		
+			$("#caddress").val($("#paddress").val());		
 		
 		}
 		else
@@ -336,7 +336,7 @@ $(document).ready(function () {
 
 	<tr bgcolor="white"><td class="label">&nbsp;Name<font size="2" color="#FF0000" ><br>(as entered in the SSLC/10th certificate and without "." symbol)</font></td><td><input type="text" id="name" name="name" class="input" size="45" maxlength="100" tabindex=1><span class="error">{{forme.name}}</span></td></tr>
 
-<tr bgcolor="white"><td class="label">&nbsp;Permanent Address<br><font size=2>(with pin code)</font></td><td><textarea rows="3" cols="55"  class="input" name="paddress" id="paddress" tabindex=2 </textarea><span class="error">{{forme.paddress}}</span></td> </tr>
+<tr bgcolor="white"><td class="label">&nbsp;Permanent Address<br><font size=2>(with pin code)</font></td><td><textarea rows="3" cols="55"  class="input" name="paddress" id="paddress" tabindex=2 ></textarea><span class="error">{{forme.paddress}}</span></td> </tr>
 <tr bgcolor="white"><td class="label">&nbsp;Phone Numbers<font size="2" ><br>(with STD code)</font></td><td>Residential Phone&nbsp;&nbsp;<input type="text" name="resphone" id="resphone" class="input" size="15" maxlength="15" tabindex=3><span class="error">{{forme.resphone}}</span><br>Mobile Phone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="mobphone" id="mobphone" class="input" size="15" maxlength="15"tabindex=4 ><span class="error">{{forme.mobphone}}</span></td></tr>
 <tr bgcolor="white"><td class="label">Panchayath/City&nbsp;</td>
 		<td>
@@ -506,7 +506,7 @@ $(document).ready(function () {
 		<tr><td colspan=2>	
 		Year of passing &nbsp;<input id="qualexamyear"  class="input"  name="qualexamyear" size="4"><span class="error">{{forme.qualexamyear}}</span>
 		<select id="qualexam" name="qualexam" size="1" class="select" onchange="checkOthers(2);">
-			<option value="HSE">HSC</option>
+			<option value="HSE">HSE</option>
 			<option value="AISSCE">AISSCE(CBSE)</option>
 			<option value="ICSE">ICSE</option>
 			<option value="VHSE">VHSE</option>
@@ -516,13 +516,13 @@ $(document).ready(function () {
 		</td></tr>
 		<tr><td colspan=2>Registration No&nbsp;&nbsp;<input type="text" name="qualexamno" id="qualexamno" class="input" size="45" maxlength="100" ><span class="error">{{forme.qualexamno}}</span></td></tr>
 		<tr><td colspan=2>Board of Examination&nbsp;&nbsp; <input type="text" name="qualboard" id="qualboard" class="input" size="45" maxlength="100" ><span class="error">{{forme.qualboard}}</span></td></tr>
-<tr><td >Physics</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="qpmark" id="qpmark" class="input" size=4><span class="error">{{forme.qpmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qpmaxmark" id="qpmaxmark" class="input" size=4><span class="error">{{forme.qpmaxmark}}</span></td><tr>
-<tr><td>Chemistry</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="qcmark" id="qcmark" class="input" size=4><span class="error">{{forme.qcmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qcmaxmark" id="qcmaxmark" class="input" size=4><span class="error">{{forme.qcmaxmark}}</span></td></tr>
-<tr><td>Maths</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="qmmark" id="qmmark" class="input" size=4><span class="error">{{forme.qmmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qmmaxmark" id="qmmaxmark" class="input" size=4><span class="error">{{forme.qmmaxmark}}</span></td></tr>
+<tr><td >Physics</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark(+2 only)&nbsp;&nbsp;<input name="qpmark" id="qpmark" class="input" size=4><span class="error">{{forme.qpmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qpmaxmark" id="qpmaxmark" class="input" size=4><span class="error">{{forme.qpmaxmark}}</span></td><tr>
+<tr><td>Chemistry</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark(+2 only)&nbsp;&nbsp;<input name="qcmark" id="qcmark" class="input" size=4><span class="error">{{forme.qcmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qcmaxmark" id="qcmaxmark" class="input" size=4><span class="error">{{forme.qcmaxmark}}</span></td></tr>
+<tr><td>Maths</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark(+2 only)&nbsp;&nbsp;<input name="qmmark" id="qmmark" class="input" size=4><span class="error">{{forme.qmmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="qmmaxmark" id="qmmaxmark" class="input" size=4><span class="error">{{forme.qmmaxmark}}</span></td></tr>
 </table>
 </td></tr>
 
-<tr bgcolor="white"><td class="label">&nbsp;Kerala Engg. Entrance Exam-2012  Details</td><td><table><tr><td >Roll No&nbsp;&nbsp;</td><td colspan=2>&nbsp;&nbsp;<input type="text" name="erollno" id="erollno" class="input" size="25" maxlength="25" ><span class="error">{{forme.erollno}}</span></td></tr><tr><td>Rank</td><td>&nbsp;&nbsp;<input type="text" name="erank" id="erank" class="input" size="25" maxlength="25" ><span class="error">{{forme.erank}}</span></td></tr>
+<tr bgcolor="white"><td class="label">&nbsp;Kerala Engg. Entrance Exam-2012  Details</td><td><table><tr><td >Roll No&nbsp;&nbsp;</td><td colspan=2>&nbsp;&nbsp;<input type="text" name="erollno" id="erollno" class="input" size="25" maxlength="25" ><span class="error">{{forme.erollno}}</span></td></tr><tr><td>Rank(If published)</td><td>&nbsp;&nbsp;<input type="text" name="erank" id="erank" class="input" size="25" maxlength="25" ><span class="error">{{forme.erank}}</span></td></tr>
 <tr><td>Physics and Chemistry</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="epcmark" id="epcmark" class="input" size=4>&nbsp;&nbsp;<span class="error">{{forme.epcmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="epcmaxmark" id="epcmaxmark" class="input" size=4><span class="error">{{forme.epcmaxmark}}</span></td><tr>
 <tr><td>Maths</td><td>&nbsp;&nbsp;&nbsp;&nbsp;Mark&nbsp;&nbsp;<input name="emmark" id="emmark" class="input" size=4>&nbsp;&nbsp;<span class="error">{{forme.emmark}}</span>&nbsp;&nbsp;Maximum Mark&nbsp;&nbsp;<input name="emmaxmark" id="emmaxmark" class="input" size=4><span class="error">{{forme.emmaxmark}}</span></td><tr>
 </table></td></tr>
