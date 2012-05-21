@@ -1,8 +1,8 @@
 address_length=10
 phoneno_length=9
-nation_length=3
+nation_length=1
 fboaes_length=2
-erollno_length=4
+erollno_length=3
 qualexamno_length=2
 qualexam_length=2
 qualboard_length=2
@@ -11,7 +11,27 @@ ddbranch_length=3
 dddate_length=9
 ddbank_length=2
 chop_length=25
+mailbody="""Dear %s 
+You application for B.Tech under management quota at Federal Insitute of Science and Technology (FISAT) has been submitted. 
+Your Application ID is %s. This number will be used to track you application at every stage. 
+The application form can be downloaded from http://fisatbtechapplication.appspot.com/print?appid=%s
+You can reprint the application from http://fisatbtechapplication.appspot.com/reprint
+The printed application need to be sent to the following address.
 
+List of documents to be enclosed with printout
+1. Attested copy of 10th Standard mark list/ Certificate
+2. Attested copy of Standard Mark list
+3. Attested copyof Entrance Admit Card
+4. Attested copy of Entrance Mark List
+
+The Principal
+Federal Institute of Science And Technology (FISAT)
+Hormis Nagar, Mookkannoor P O,
+Angamaly, Ernakulam Dt.
+Kerala, India, Pin - 683 577
+Visit http://admission.fisat.ac.in for any information regarding admissions.
+This is a system generated mail. Do not reply to this mail.
+All the best."""
 class defaults():
 	def __init__(self):
 		self.values={
