@@ -13,16 +13,17 @@ ddbank_length=2
 chop_length=25
 mailbody="""Dear %s 
 You application for B.Tech under management quota at Federal Insitute of Science and Technology (FISAT) has been submitted. 
-Your Application ID is %s. This number will be used to track you application at every stage. 
+Your Application ID is %s. This ID will be used to track you application at every stage. 
 The application form can be downloaded from http://fisatbtechapplication.appspot.com/print?appid=%s
 You can reprint the application from http://fisatbtechapplication.appspot.com/reprint
-The printed application need to be sent to the following address.
 
 List of documents to be enclosed with printout
 1. Attested copy of 10th Standard mark list/ Certificate
 2. Attested copy of Standard Mark list
 3. Attested copyof Entrance Admit Card
 4. Attested copy of Entrance Mark List
+
+The printed application need to be sent to the following address.
 
 The Principal
 Federal Institute of Science And Technology (FISAT)
@@ -39,14 +40,14 @@ class defaults():
 			"paddress":"",
 			"resphone":"",
 			"mobphone":"",
-			"panchayath":"",
+			"panchayath":"0",
 			"inpanchayath":"",
 			"samepaddress":"",
 			"caddress":"",
 			"email":"",
 			"dobdate":"01",
 			"dobmonth":"01",
-			"dobyear":"1980",
+			"dobyear":"1994",
 			"gender":"M",
 			"nation":"",
 			"religion":"Hindu",
