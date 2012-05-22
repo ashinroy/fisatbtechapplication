@@ -33,7 +33,7 @@ import recaptcha
 folderFonts = os.path.dirname(reportlab.__file__) + os.sep + 'fonts'
 
 def sendapp_mail(appid,name,mailadd):
-	#mail.send_mail(sender="<admission@fisat.ac.in>",to="mahesh.fisat@gmail.com",subject="FISAT BTech 2012 Admission",body=(mailbody % (name,appid,appid)))
+	mail.send_mail(sender="<admissions@fisat.ac.in>",to=mailadd,subject="FISAT BTech 2012 Admission",body=(mailbody % (name,appid,appid)))
 	pass
 def get_captcha(error=None):
 	chtml = recaptcha.displayhtml(public_key = "6LdlodESAAAAAOe3WjJCRjUyk2w4aCpG8O-Nt5Xg",use_ssl = False,error = error)
@@ -123,7 +123,11 @@ class MainPage(webapp.RequestHandler):
 		btechapp.paddress=form.values["paddress"]
 		btechapp.resphone=form.values["resphone"]
 		btechapp.mobphone=form.values["mobphone"]
-		btechapp.panchayath=form.values["panchayath"]
+		if form.values['panchayath']=="Others":
+			btechapp.panchayath=form.values['inpanchayath']
+		else:
+			btechapp.panchayath=form.values["panchayath"]
+		
 		btechapp.caddress=form.values["caddress"]
 		btechapp.email=form.values["email"]
 		dob=date(int(form.values["dobyear"]),int(form.values["dobmonth"]),int(form.values["dobdate"]))
@@ -303,8 +307,8 @@ class MainPage(webapp.RequestHandler):
 		else:
 			form.errors['mobphone']="&nbsp;Invalid Phone NO"
 			error=1
-		if form.values['panchayath']=="Others":
-			form.values['panchayath']=form.values['inpanchayath']
+		#if form.values['panchayath']=="Others":
+		#	form.values['panchayath']=form.values['inpanchayath']
 		if form.values['samepaddress']=='ON':
 			form.values['caddress']=form.values['paddress']
 		else:
@@ -541,13 +545,13 @@ class MainPage(webapp.RequestHandler):
 		if error==1:
 			formerror['error']="Some of the fields are invalid. Please check. "	
 		if self.check_id(form.values['erollno']):
-			formerror['error']="Your application already exist.Try reprint application or send mail to admission@fisat.ac.in."
+			formerror['error']="Your application already exist.Try reprint application or send mail to admissions@fisat.ac.in."
 			error=1
 		captcha=validate_captcha(challenge,response,remoteip)
 		if captcha.is_valid or response=="master":
 			form.errors['captcha']=""
 		else:
-			form.errors['captcha']="Invalid input"
+			form.errors['captcha']="The characters you entered didn't match<br> the word verification. Please try again."
 			error=1			
 		if error==1:
 			chtml=get_captcha(captcha.error_code)
