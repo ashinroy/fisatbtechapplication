@@ -33,8 +33,10 @@ import recaptcha
 folderFonts = os.path.dirname(reportlab.__file__) + os.sep + 'fonts'
 
 def sendapp_mail(appid,name,mailadd):
-	mail.send_mail(sender="<admissions@fisat.ac.in>",to=mailadd,subject="FISAT BTech 2012 Admission",body=(mailbody % (name,appid,appid)))
-	pass
+	try:
+		mail.send_mail(sender="<admissions@fisat.ac.in>",to=mailadd,subject="FISAT BTech 2012 Admission",body=(mailbody % (name,appid,appid)))
+	except:
+		pass
 def get_captcha(error=None):
 	chtml = recaptcha.displayhtml(public_key = "6LdlodESAAAAAOe3WjJCRjUyk2w4aCpG8O-Nt5Xg",use_ssl = False,error = error)
 	return chtml
@@ -72,7 +74,7 @@ class MainPage(webapp.RequestHandler):
 		return (RE.match(rank))
 	def validate_mark(self,mark):
 		RE = re.compile("^[0-9-.]+$")
-		return (RE.match(mark))
+		return (RE.match(mark) and float(mark)!=0)
 	def validate_year(self,year):
 		RE = re.compile("^[0-9-]+$")
 		return (RE.match(year) and len(year)==4)
@@ -646,9 +648,9 @@ class PrintApp(webapp.RequestHandler):
 		nametext=Paragraph("<para fontSize=10>Name:</para>",styles["Left"])
 		name=Paragraph("<para fontSize=10><b>%s</b></para>" % app.name,styles["Left"])
 		paddresstext=Paragraph("<para fontSize=10>Permanent Address:</para>",styles["Justify"])
-		caddress=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.caddress),styles["Left"])
+		caddress=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.caddress.replace("&","&amp;")),styles["Left"])
 		caddresstext=Paragraph("<para fontSize=10>Communication Address:</para>",styles["Left"])
-		paddress=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.paddress),styles["Justify"])
+		paddress=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.paddress.replace("&","&amp;")),styles["Justify"])
 		dobtext=Paragraph("<para fontSize=10>Date of Birth:</para>",styles["Left"])		
 		dob=Paragraph("<para fontSize=10><b>%s</b></para>" % app.dob,styles["Left"])
 		emailtext=Paragraph("<para fontSize=10>Email:</para>",styles["Left"])		
@@ -672,22 +674,22 @@ class PrintApp(webapp.RequestHandler):
 		fathernametext=Paragraph("<para fontSize=10>Father's Name:</para>",styles["Left"])
 		fathername=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.fathername),styles["Left"])
 		fatherocctext=Paragraph("<para fontSize=10>Occupation:</para>",styles["Left"])
-		fatherocc=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.fatherocc),styles["Left"])
+		fatherocc=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.fatherocc.replace("&","&amp;")),styles["Left"])
 		fatherdesigtext=Paragraph("<para fontSize=10>Designation:</para>",styles["Left"])
-		fatherdesig=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.fatherdesig),styles["Left"])
+		fatherdesig=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.fatherdesig.replace("&","&amp;")),styles["Left"])
 		fatheraddress=Paragraph("<para fontSize=10>Address:</para>",styles["Left"])
 		fatherphonetext=Paragraph("<para fontSize=10>Phone:</para>",styles["Left"])
 		fatherphone=Paragraph("<para fontSize=10><b>%s</b></para>" % app.fatherphone,styles["Left"])
 		fatheraddresstext=Paragraph("<para fontSize=10>Address:</para>",styles["Left"])
-		fatheraddress=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.fatheraddress),styles["Left"])
+		fatheraddress=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.fatheraddress.replace("&","&amp;")),styles["Left"])
 		mothernametext=Paragraph("<para fontSize=10>Mother's Name:</para>",styles["Left"])
 		mothername=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.mothername),styles["Left"])
 		motherocctext=Paragraph("<para fontSize=10>Occupation:</para>",styles["Left"])
-		motherocc=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.motherocc),styles["Left"])
+		motherocc=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.motherocc.replace("&","&amp;")),styles["Left"])
 		motherdesigtext=Paragraph("<para fontSize=10>Designation:</para>",styles["Left"])
-		motherdesig=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.motherdesig),styles["Left"])
+		motherdesig=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.motherdesig.replace("&","&amp;")),styles["Left"])
 		motheraddresstext=Paragraph("<para fontSize=10>Address:</para>",styles["Left"])
-		motheraddress=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.motheraddress),styles["Left"])
+		motheraddress=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.motheraddress.replace("&","&amp;")),styles["Left"])
 		motherphonetext=Paragraph("<para fontSize=10>Phone:</para>",styles["Left"])
 		motherphone=Paragraph("<para fontSize=10><b>%s</b></para>" % app.motherphone,styles["Left"])
 		
@@ -723,10 +725,10 @@ class PrintApp(webapp.RequestHandler):
 		choice4=Paragraph("<para fontSize=10>Choice4:<b>%s</b></para>" % (app.bp4),styles["Left"])
 		choice5=Paragraph("<para fontSize=10>Choice5:<b>%s</b></para>" % (app.bp5),styles["Left"])
 		choice6=Paragraph("<para fontSize=10>Choice6:<b>%s</b></para>" % (app.bp6),styles["Left"])
-		insttext=Paragraph("<para fontSize=10><b>Name and address of the school/institution last studied:</b><br/>%s<para>" %  (app.insaddress),styles["Left"])
+		insttext=Paragraph("<para fontSize=10><b>Name and address of the school/institution last studied:</b><br/>%s<para>" %  (app.insaddress.replace("&","&amp; ")),styles["Left"])
 		insphone=Paragraph("<para fontSize=10><b>Phone:</b><br/>%s</para>" %  (app.insphone),styles["Left"])
-		extratext=Paragraph("<para fontSize=10><b>Extra-curricular activities:</b><br/>%s<para>" %  (app.extra),styles["Left"])
-		addinfo=Paragraph("<para fontSize=10><b>Additional Information:</b><br/>%s</para>" %  (app.addinfo),styles["Left"])		
+		extratext=Paragraph("<para fontSize=10><b>Extra-curricular activities:</b><br/>%s<para>" %  (app.extra.replace("&","&amp;")),styles["Left"])
+		addinfo=Paragraph("<para fontSize=10><b>Additional Information:</b><br/>%s</para>" %  (app.addinfo.replace("&","&amp;")),styles["Left"])		
 		payinfo=Paragraph("<para fontSize=12><b>Payment Information</b></para>",styles["Left"])		
 		ddno=Paragraph("<para fontSize=10><b>DD No:</b>%s<para>" %  (app.ddno),styles["Left"])
 		dddate=Paragraph("<para fontSize=10><b>DD Date:</b>%s<para>" %  (app.dddate),styles["Left"])
