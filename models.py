@@ -1,6 +1,11 @@
 """Models"""
 from google.appengine.ext import db
 
+class appStatus(db.Model):
+	keyword=db.StringProperty()
+	status=db.StringProperty()
+	desc=db.StringProperty()
+
 class btechApp(db.Model):
 	appid=db.StringProperty()
 	apptype=db.StringProperty()

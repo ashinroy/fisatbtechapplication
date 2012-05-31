@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>B.Tech Application - FISAT</title>
+<style type="text/css">
+	.input{font-size:12px;padding:0px 0px;border:solid 1px #aacfe4;}
+	.select{font-size:12px;padding:0px 0px;border:solid 1px #aacfe4;}
+	.button{clear:both;margin-left:220px;width:65px;height:25px;text-align:center;line-height:18px;color:#000;font-size:11px;font-family:Lucida Sans Unicode;}
+	.label {text-align:left ; font-family:	Lucida, "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;}
+	.error {color: red}
+	.impo {color: red}
+</style>
+</head>
+<body topmargin="0" leftmargin="0">
+<center>
+
+<div  class="appform">
+
+	<form name="applicationprint" method="POST" action="/offline">
+	<table border="0" cellpadding="4" cellspacing="1"  bgcolor="#005C1F" width="80%" >
+	<tbody>
+	<tr><td colspan=2><h1>Application for admission to B.Tech courses -Management Quota </h1></td><tr>
+	<tr bgcolor="white"><td bgcolor="white" colspan="2">&nbsp;</td><tr>
+<tr><td><div></div><td></tr>	
+
+<tr ><td bgcolor="#005C1F" >Thank you for submitting application. </td><tr>
+
+<tr><td ><span class="impo">Note down the APPLICATION ID:{{form.appid}} </span><td></td>
+
+<tr><td><b>APPLICATION ID:<input type="hidden" id="appid" name="appid" value="{{form.appid}}">{{form.appid}}</b></td></tr>
+<tr bgcolor="#005C1F"><td align="center" colspan=2 class="button"><input  value="Okay. go Back " type="submit"></td> </tr>
+</tbody> 
+</table>
+</form></div>
+</center>
+</body>	
+</html>					
+			
