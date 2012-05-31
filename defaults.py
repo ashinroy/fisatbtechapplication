@@ -11,7 +11,8 @@ ddbranch_length=3
 dddate_length=9
 ddbank_length=2
 chop_length=25
-mailbody="""Dear %s 
+appstatus_null="""<tr><td>%s</td><td>Online Submitted,Under Processing</td><td>Documents not yet received/Under Processing</td><tr>"""
+onlinemailbody="""Dear %s 
 You application for B.Tech under management quota at Federal Insitute of Science and Technology (FISAT) has been submitted. 
 Your Application ID is %s. This ID will be used to track you application at every stage. 
 The application form can be downloaded from http://fisatbtechapplication.appspot.com/print?appid=%s
@@ -19,9 +20,10 @@ You can reprint the application from http://fisatbtechapplication.appspot.com/re
 
 List of documents to be enclosed with printout
 1. Attested copy of 10th Standard mark list/ Certificate
-2. Attested copy of Standard Mark list
+2. Attested copy of 12th Standard Mark list
 3. Attested copyof Entrance Admit Card
 4. Attested copy of Entrance Mark List
+5.DD
 
 The printed application need to be sent to the following address.
 
@@ -33,6 +35,15 @@ Kerala, India, Pin - 683 577
 Visit http://admission.fisat.ac.in for any information regarding admissions.
 This is a system generated mail. Do not reply to this mail.
 All the best."""
+
+offlinemailbody="""Dear %s 
+You application for B.Tech under management quota at Federal Insitute of Science and Technology (FISAT) has been recieved. 
+Your Application ID is %s. This ID will be used to track you application at every stage. 
+You can check the status of the application visit  the site http://fisatbtechapplication.appspot.com/status
+Visit http://admission.fisat.ac.in for any information regarding admissions.
+This is a system generated mail. Do not reply to this mail.
+All the best."""
+
 class defaults():
 	def __init__(self):
 		self.values={
@@ -166,3 +177,9 @@ class defaults():
 			"ddbank":"",
 			"ddbranch":"",
 			"captcha":""}
+adminips=['202.88.252.50','117.239.78.52','127.0.0.1']
+defstatus=[['ONLINENOTRECVD',"Online Submitted,Under Processing","Documents not yet received/Under Processing"],
+		['ONLINERECVD',"Online Submitted,Under Processing","Documents received/Under verification process"],
+		['OFFLINERECVD',"Offline Submitted,Under Processing","Documents  received/Under Processing"],
+		['REJECTD',"Application rejected","Please contact college for more details"],
+		['ACCPTD',"Document verification Completed","Verification completed/Under Processing"]]

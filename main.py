@@ -34,7 +34,7 @@ folderFonts = os.path.dirname(reportlab.__file__) + os.sep + 'fonts'
 
 def sendapp_mail(appid,name,mailadd):
 	try:
-		mail.send_mail(sender="<admissions@fisat.ac.in>",to=mailadd,subject="FISAT BTech 2012 Admission",body=(mailbody % (name,appid,appid)))
+		mail.send_mail(sender="<admissions@fisat.ac.in>",to=mailadd,subject="FISAT BTech 2012 Admission",body=(onlinemailbody % (name,appid,appid)))
 	except:
 		pass
 def get_captcha(error=None):
@@ -209,6 +209,7 @@ class MainPage(webapp.RequestHandler):
 		btechapp.ddbank=form.values["ddbank"]
 		btechapp.ddbranch=form.values["ddbranch"]
 		btechapp.clientip=environ['REMOTE_ADDR']
+		btechapp.appstatus=defstatus[0][0]
 		btechapp.put()
 		sendapp_mail(appid,form.values["name"],form.values["email"])
 		return appid
@@ -327,11 +328,12 @@ class MainPage(webapp.RequestHandler):
 			error=1
 		if len(form.values['nation'])>nation_length:
 			form.errors['nation']=""
+		
 			
 		else: 		
 			form.errors['nation']="&nbsp;Invalid Nationality"
 			error=1 
-
+		
 		if self.validate_name(form.values['fathername']):
 			form.errors['fathername']=""
 			
@@ -438,7 +440,7 @@ class MainPage(webapp.RequestHandler):
 			form.errors['qualexamyear']="&nbsp;Invalid"
 			error=1
 		if len(form.values['qualexamno'])>qualexamno_length:
-			form.errors['nation']=""
+			pass
 			
 		else: 		
 			form.errors['qualexamno']="&nbsp;Invalid"

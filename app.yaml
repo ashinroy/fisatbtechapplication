@@ -1,15 +1,23 @@
 application: fisatbtechapplication
-version: 2
+version: 3
 runtime: python
 api_version: 1
 
 handlers:
 - url: /js
   static_dir: jscript
-
 - url: /images
   static_dir: images
+- url: /status
+  script: appstatus.py
+- url: /filldb
+  script: appstatus.py
+- url: /offline
+  script: offlinemain.py
+- url: /offsubmit
+  script: offlinemain.py
 - url: /.*
   script: main.py
+
 
 
