@@ -73,8 +73,11 @@ class MainPage(webapp.RequestHandler):
 		RE = re.compile("^[0-9]+$")
 		return (RE.match(rank))
 	def validate_mark(self,mark):
-		RE = re.compile("^[0-9-.]+$")
-		return (RE.match(mark) and float(mark)!=0)
+		try:
+			RE = re.compile("^[0-9-.]+$")
+			return (RE.match(mark) and float(mark)!=0)
+		except:
+			return False
 	def validate_year(self,year):
 		RE = re.compile("^[0-9-]+$")
 		return (RE.match(year) and len(year)==4)
@@ -276,8 +279,8 @@ class MainPage(webapp.RequestHandler):
 		form.values["bp4"]=self.request.get("bp4").strip()
 		form.values["bp5"]=self.request.get("bp5").strip()
 		form.values["bp6"]=self.request.get("bp6").strip()
-		form.values["extra"]=self.request.get("extra").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")
-		form.values["addinfo"]=self.request.get("addinfo").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")
+		form.values["extra"]=self.request.get("extra").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")[0:35]
+		form.values["addinfo"]=self.request.get("addinfo").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")[0:35]
 		form.values["ddno"]=self.request.get("ddno").strip()
 		form.values["dddate"]=self.request.get("dddate").strip()
 		form.values["ddbank"]=self.request.get("ddbank").strip()

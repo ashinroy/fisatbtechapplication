@@ -16,6 +16,10 @@ handlers:
   script: offlinemain.py
 - url: /offsubmit
   script: offlinemain.py
+- url: /download
+  script: download.py
+- url: /search
+  script: search.py
 - url: /.*
   script: main.py
 
