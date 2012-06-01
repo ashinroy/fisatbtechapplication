@@ -1,3 +1,4 @@
+max_apps=5000
 address_length=10
 phoneno_length=9
 nation_length=1
@@ -177,7 +178,7 @@ class defaults():
 			"ddbank":"",
 			"ddbranch":"",
 			"captcha":""}
-adminips=['202.88.252.50','117.239.78.52','127.0.0.1']
+adminips=['202.88.252.50','117.239.78.52','127.0.0.1','202.88.252.51']
 defstatus=[['ONLINENOTRECVD',"Online Submitted,Under Processing","Documents not yet received/Under Processing"],
 		['ONLINERECVD',"Online Submitted,Under Processing","Documents received/Under verification process"],
 		['OFFLINERECVD',"Offline Submitted,Under Processing","Documents  received/Under Processing"],

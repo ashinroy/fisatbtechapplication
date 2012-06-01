@@ -10,21 +10,27 @@
 	.error {color: red}
 	.impo {color: red}
 </style>
+<script>
+function changestatus(url)
+{
+			
+	window.open(url,"chooser", "toolbar=no,menubar=no,scrollbars=yes,width=500,height=412");
+	}
+</script>
 </head>
 <body topmargin="0" leftmargin="0">
 <center>
 <div  class="appform">
-	<form name="applicationstatus" method="POST" action="/status">
+	<form name="search" method="POST" action="/search">
 	<table border="0" cellpadding="4" cellspacing="1"  bgcolor="#aacfe4" width="80%" >
 	<tbody>
 	<tr><td colspan=3><h1>B.Tech Application -Management Quota </h1></td><tr>
-	<tr><td colspan=3><h1>Application Status</h1></td><tr>
+	<tr><td colspan=3><h1>Search</h1></td><tr>
 	<tr><td></td></tr>
-	<tr bgcolor="white"><td bgcolor="white" colspan=3 ><span class="error">{{status.error}}</span></td><tr>
-<tr><td colspan=3>Application ID/Entrance Roll No<input  type="text" id="appid" name="appid"><input  value="Check Status" type="submit"></td></tr>	
-
-<tr bgcolor="white"><td>Name</td><td>Status</td><td>Description</td><tr>
-{{status.appstatustable}}
+	<tr bgcolor="white"><td bgcolor="white" colspan=6 ></td><tr>
+<tr><td colspan=3>APPID<input  type="text" id="query" name="query"><input  value="Search" type="submit"></td></tr>	
+<tr bgcolor="white"><td bgcolor="white" colspan=6 ></td><tr>
+{{results.result}}
 </tbody> 
 </table>
 </form></div>

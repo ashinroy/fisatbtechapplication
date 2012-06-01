@@ -34,27 +34,27 @@ class FillDefaults(webapp.RequestHandler):
 
 
 class ShowStatus(webapp.RequestHandler):
-	def get_status(self,appid):
+	def get_status(self,rollno):
 		btechapp=btechApp.all()
-		btechapp.filter("appid =",appid)
+		btechapp.filter("erollno =",rollno)
 		app=btechapp.fetch(1)[0]
 		if app.appstatus==None:
-			return appstatus_null % appid
+			return appstatus_null % rollno
 		else:
 			try:
 				status_keyword=app.appstatus
 				status_dtl=appStatus.all()
 				status_dtl.filter("keyword =",status_keyword)
 				statusen=status_dtl.fetch(1)[0]
-				statustable="""<tr><td>%s</td><td>%s</td><td>%s</td><tr>""" %(appid,statusen.status,statusen.desc)
+				statustable="""<tr><td>%s</td><td>%s</td><td>%s</td><tr>""" %(app.name,statusen.status,statusen.desc)
 				return statustable
 			except:
 				return """<tr><td></td><td>Contact college</td><td></td><tr>"""
 			
 
-	def check_id(self,appid):
+	def check_id(self,rollno):
 		btechapp=btechApp.all()
-		btechapp.filter("appid =",appid)
+		btechapp.filter("erollno =",rollno)
 		try:		
 			app=btechapp.fetch(1)[0]
 			return True
@@ -69,8 +69,12 @@ class ShowStatus(webapp.RequestHandler):
 		status={"error":"","appstatustable":""}
 		values={"status":status}
 		appid=self.request.get("appid").strip()
-		if self.check_id(appid):
-			status["appstatustable"]=self.get_status(appid)
+		if appid.find('F')>-1:
+			rollno=appid[5:]
+		else:
+			rollno=appid
+		if self.check_id(rollno):
+			status["appstatustable"]=self.get_status(rollno)
 			path = os.path.join(os.path.dirname(__file__), 'appstatus.html')
 			self.response.out.write(template.render(path, values))
 		else:
