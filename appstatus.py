@@ -1,3 +1,9 @@
+import os
+
+
+from google.appengine.dist import use_library
+use_library('django', '0.96')
+
 from google.appengine.api import mail
 from google.appengine.ext.webapp import template
 import cgi
@@ -7,7 +13,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from defaults import *
 from models import * 
-import os
+
 from os import environ
 
 def check_access():

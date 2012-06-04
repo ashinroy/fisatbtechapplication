@@ -14,7 +14,12 @@
 function changestatus(url)
 {
 			
-	window.open(url,"chooser", "toolbar=no,menubar=no,scrollbars=yes,width=500,height=412");
+	window.open(url,"status", "toolbar=no,menubar=no,scrollbars=yes,width=550,height=300");
+	}
+function changemarks(url)
+{
+			
+	window.open(url,"editmark", "toolbar=no,menubar=no,scrollbars=yes,width=550,height=300");
 	}
 </script>
 </head>
@@ -27,9 +32,9 @@ function changestatus(url)
 	<tr><td colspan=3><h1>B.Tech Application -Management Quota </h1></td><tr>
 	<tr><td colspan=3><h1>Search</h1></td><tr>
 	<tr><td></td></tr>
-	<tr bgcolor="white"><td bgcolor="white" colspan=6 ></td><tr>
-<tr><td colspan=3>APPID<input  type="text" id="query" name="query"><input  value="Search" type="submit"></td></tr>	
-<tr bgcolor="white"><td bgcolor="white" colspan=6 ></td><tr>
+	<tr bgcolor="white"><td bgcolor="white" colspan=7 ></td><tr>
+<tr><td colspan=3>ERollNo<input  type="text" id="query" name="query"><input  value="Search" type="submit"></td></tr>	
+<tr bgcolor="white"><td bgcolor="white" colspan=7 ></td></tr>
 {{results.result}}
 </tbody> 
 </table>

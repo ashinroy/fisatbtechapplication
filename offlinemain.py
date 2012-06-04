@@ -1,5 +1,9 @@
 import sys
 import os
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+
+from google.appengine.dist import use_library
+use_library('django', '0.96')
 
 
 from google.appengine.api import mail
@@ -35,6 +39,9 @@ class MainPage(webapp.RequestHandler):
 			self.redirect("/h404",permanent=True)
 		else:
 			form=defaults()
+			form.values['nation']="Indian"
+			form.values['epcmaxmark']="480"
+			form.values['emmaxmark']="480"
 			values={"formv":form.values,"forme":form.errors}
 			path = os.path.join(os.path.dirname(__file__), 'offlineapptemplate.html')
 			self.response.out.write(template.render(path, values))
