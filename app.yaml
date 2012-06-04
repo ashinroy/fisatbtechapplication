@@ -20,6 +20,10 @@ handlers:
   script: download.py
 - url: /search
   script: search.py
+- url: /editstatus
+  script: edit.py
+- url: /editmarks
+  script: edit.py
 - url: /.*
   script: main.py
 

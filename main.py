@@ -1,5 +1,10 @@
 import sys
+
 import os
+
+
+from google.appengine.dist import use_library
+use_library('django', '0.96')
 
 sys.path.insert(0, 'reportlab.zip')
 from google.appengine.api import mail
@@ -694,7 +699,8 @@ class PrintApp(webapp.RequestHandler):
 		motherdesigtext=Paragraph("<para fontSize=10>Designation:</para>",styles["Left"])
 		motherdesig=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.motherdesig.replace("&","&amp;")),styles["Left"])
 		motheraddresstext=Paragraph("<para fontSize=10>Address:</para>",styles["Left"])
-		motheraddress=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.motheraddress.replace("&","&amp;")),styles["Left"])
+		#print 	self.chopline(app.motheraddress)
+		motheraddress=Paragraph("<para fontSize=10><b>%s</b></para>" % self.chopline(app.motheraddress.replace('&','and')),styles["Left"])
 		motherphonetext=Paragraph("<para fontSize=10>Phone:</para>",styles["Left"])
 		motherphone=Paragraph("<para fontSize=10><b>%s</b></para>" % app.motherphone,styles["Left"])
 		
