@@ -10,37 +10,19 @@
 	.error {color: red}
 	.impo {color: red}
 </style>
-<script>
-function changestatus(url)
-{
-			
-	window.open(url,"status", "toolbar=no,menubar=no,scrollbars=yes,width=550,height=300");
-	}
-function addserial(url)
-{
-			
-	window.open(url,"status", "toolbar=no,menubar=no,scrollbars=yes,width=550,height=300");
-	}
-function changemarks(url)
-{
-			
-	window.open(url,"editmark", "toolbar=no,menubar=no,scrollbars=yes,width=550,height=300");
-	}
-</script>
 </head>
 <body topmargin="0" leftmargin="0">
 <center>
 <div  class="appform">
-	<form name="search" method="POST" action="/search">
-	<table border="0" cellpadding="4" cellspacing="1"  bgcolor="#aacfe4" width="90%" >
+	<form name="rank" method="POST" action="/rank">
+	<table border="0" cellpadding="4" cellspacing="1"  bgcolor="#aacfe4" width="80%" >
 	<tbody>
 	<tr><td colspan=3><h1>B.Tech Application -Management Quota </h1></td><tr>
-	<tr><td colspan=3><h1>Search</h1></td><tr>
+	<tr><td colspan=3><h1><a href="http://en.wiktionary.org/wiki/provisional" style="text-decoration: none">Provisional</a> FISAT Rank</h1></td><tr>
 	<tr><td></td></tr>
-	<tr bgcolor="white"><td bgcolor="white" colspan=8 ></td><tr>
-<tr><td colspan=3>ERollNo<input  type="text" id="query" name="query"><input  value="Search" type="submit"></td></tr>	
-<tr bgcolor="white"><td bgcolor="white" colspan=8 ></td></tr>
-{{results.result}}
+	<tr bgcolor="white"><td bgcolor="white" colspan=5 ><span class="error">{{rank.error}}</span></td><tr>
+<tr><td colspan=5>Application ID/Entrance Roll No<input  type="text" id="appid" name="appid"><input  value="Check Rank" type="submit"></td></tr>	
+{{rank.ranktable}}
 </tbody> 
 </table>
 </form></div>

@@ -1,3 +1,7 @@
+publish_rank=0
+lock_rank=0
+disablesubmit=1
+dsno=9999
 max_apps=5000
 address_length=10
 phoneno_length=9

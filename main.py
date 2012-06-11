@@ -52,8 +52,16 @@ def validate_captcha(challenge,response,remoteip):
 
 
 
+
 class MainPage(webapp.RequestHandler):
+	def writedisabled(self):
+		values=""
+		path = os.path.join(os.path.dirname(__file__), 'disabled.html')
+		self.response.out.write(template.render(path, values))	
 	def get(self):
+		if disablesubmit==1:
+			self.writedisabled()
+			return	
 		form=defaults()
 		chtml=get_captcha()
 		values={"formv":form.values,"forme":form.errors,'captchahtml': chtml}
@@ -223,7 +231,9 @@ class MainPage(webapp.RequestHandler):
 		return appid
 		
 	def post(self):
-		
+		if disablesubmit==1:
+			self.writedisabled()
+			return	
 		form=defaults()
 		form.values["name"]=self.request.get("name").strip()
 		form.values["paddress"]=self.request.get("paddress").strip().replace("\n"," ").replace("\r"," ").replace("\""," ")
@@ -578,6 +588,10 @@ class MainPage(webapp.RequestHandler):
 			self.redirect("/submit?appid="+appid,permanent=True)		
 
 class SubmitApp(webapp.RequestHandler):
+		def writedisabled(self):
+			values=""
+			path = os.path.join(os.path.dirname(__file__), 'disabled.html')
+			self.response.out.write(template.render(path, values))	
 		def check_id(self,appid):
 			btechapp=btechApp.all()
 			btechapp.filter("appid =",appid)
@@ -587,6 +601,9 @@ class SubmitApp(webapp.RequestHandler):
 			except:
 				return False
 		def get(self):
+			if disablesubmit==1:
+				self.writedisabled()
+				return	
 			appid=self.request.get("appid").replace(" ","").replace("\\","").replace(".","")
 			if self.check_id(appid):
 				values={"form":{"appid":appid}}
