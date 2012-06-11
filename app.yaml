@@ -18,14 +18,28 @@ handlers:
   script: offlinemain.py
 - url: /download
   script: download.py
+- url: /vdownload
+  script: download.py
+- url: /fbmdownload
+  script: download.py
+- url: /fbpdownload
+  script: download.py
+- url: /mkdownload
+  script: download.py
+- url: /rldownload
+  script: download.py
 - url: /search
   script: search.py
 - url: /editstatus
   script: edit.py
 - url: /editmarks
   script: edit.py
+- url: /map
+  script: edit.py
+- url: /rank
+  script: rank.py
+- url: /rankcmd
+  script: rank.py
 - url: /.*
   script: main.py
-
-
 

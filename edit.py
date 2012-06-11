@@ -120,8 +120,79 @@ class EditMarks(webapp.RequestHandler):
 			print ''
 			print 'Saved'
 	
+class EditSNo(webapp.RequestHandler):
+		def validate_sno(self,sno):
+			try:
+				RE = re.compile("^[0-9]+$")
+				return (RE.match(sno) and float(sno)!=0)
+			except:
+				return False
+		def getSNo(self,erollno):
+			try:
+				smap=serialNoMap.all()
+				smap.filter("erollno =",erollno)
+				serialno=smap.fetch(1)[0]
+				return serialno.sno
+			except:
+				return dsno
+		def addSNo(self,erollno,sno):
+				if self.validate_sno(sno)==False:
+					return False
+				try:
+					smap=serialNoMap.all()
+					smap.filter("erollno =",erollno)
+					serialno=smap.fetch(1)[0]
+					serialno.sno=sno
+					serialno.put()
+					return True
+				except:
+					smap=serialNoMap()
+					smap.erollno=erollno
+					smap.sno=sno
+					smap.put()	
+					return True
+				
+		def get(self):
+				if check_access()==False:
+					return
+				sall={"sno":""}
+				canid={"appid":""}
+				values={"sall":sall,"canid":canid}
+				appid=self.request.get("appid")			
+				canid['appid']=appid
+				btechapp=btechApp.all()
+				btechapp.filter("appid =",appid)
+				app=btechapp.fetch(1)[0]
+				sno=self.getSNo(app.erollno)
+				if sno==str(dsno):
+					sno=""
+				
+				inputs="""Serial No<input type="text" value="%s" name="sno" id="sno"><br>""" % sno
+				sall["sno"]=inputs
+				path = os.path.join(os.path.dirname(__file__), 'map.html')
+				self.response.out.write(template.render(path, values))
+		def post(self):
+			if check_access()==False:
+				return
+			appid=self.request.get("appid")
+			sno=self.request.get("sno")
+			if sno.strip()=="":
+				sno=str(dsno)
+			btechapp=btechApp.all()
+			btechapp.filter("appid =",appid)
+			app=btechapp.fetch(1)[0]
+			success=self.addSNo(app.erollno,sno)
+			if success==False:			
+				print 'Content-Type: text/plain'
+				print ''
+				print 'Unable to save , check for any not numerical characters -:('
+			else:
+				print 'Content-Type: text/plain'
+				print ''
+				print 'Saved'
+	
 application = webapp.WSGIApplication(
-                                     [('/editstatus', EditStatus),('/editmarks', EditMarks)],
+                                     [('/editstatus', EditStatus),('/editmarks', EditMarks),('/map', EditSNo)],
                                      debug=True)
 
 def main():

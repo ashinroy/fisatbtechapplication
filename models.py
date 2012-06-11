@@ -1,6 +1,21 @@
 """Models"""
 from google.appengine.ext import db
 
+class serialNoMap(db.Model):
+	sno=db.StringProperty()
+	erollno=db.StringProperty()
+	
+
+class rankList(db.Model):
+	rank=db.StringProperty()
+	score=db.StringProperty()
+	erollno=db.StringProperty()
+	qualboard=db.StringProperty()
+	pcm=db.StringProperty()
+	entmark=db.StringProperty()
+	sno=db.StringProperty()
+	name=db.StringProperty()
+
 class appStatus(db.Model):
 	keyword=db.StringProperty()
 	status=db.StringProperty()
