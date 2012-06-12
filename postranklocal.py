@@ -16,7 +16,7 @@ def send_to_server(rankdtl,cmd):
 		return False	
 	
 	headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
-	conn = httplib.HTTPConnection("fisatbtechapplication.appspot.com")
+	conn = httplib.HTTPConnection("localhost:8080")
 	conn.request("POST", "/rankcmd", params, headers)
 	response = conn.getresponse()
 	print response.status, response.reason

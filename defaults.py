@@ -1,4 +1,4 @@
-publish_rank=0
+publish_rank=1
 lock_rank=0
 disablesubmit=1
 dsno=9999
